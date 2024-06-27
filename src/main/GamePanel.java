@@ -4,28 +4,28 @@ import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 
 import java.awt.*;
-import java.util.Random;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GamePanel extends JPanel {
 
     //crezione di una classe di tipo mouse inputs per poter riferire ad un 
     //unico oggetto
-    private MouseInputs mouseInputs ;
+    private final MouseInputs mouseInputs = new MouseInputs(this);
 
     //variables that are useful
     private float xDelta = 100, yDelta = 100;//remembers the coordinates position of the object
-
-    private float xDir = 4, yDir = 4; //useful to indicate the direction of motion
-    private Color color = Color.BLACK;
-    private Random rnd = new Random();
     private Dimension panelDimension = new Dimension(1280, 800);
+    private BufferedImage img;
 
     /**
      * adds all the keylisteners
      */
     public GamePanel(){
-        mouseInputs = new MouseInputs(this);
+        importImg();
         addKeyListener(new KeyboardInputs(this));
 
         //classe che consente di ricevere inputs dal mouse
@@ -35,6 +35,15 @@ public class GamePanel extends JPanel {
         //classe che osserva i movimenti del mouse
         addMouseMotionListener(mouseInputs );
         setPanelSize();
+    }
+
+    private void importImg() {
+        InputStream is = getClass().getResourceAsStream("/resources/sprites.png");
+        try {
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -64,15 +73,6 @@ public class GamePanel extends JPanel {
         this.yDelta += y;
     }
 
-    /**
-     * method that sets the inital position of the rectangle thats about to be drawn
-     * @param x horizondal position (pixels from the left margin)
-     * @param y vertical position (pixels from the top of the window)
-     */
-    public void setRectPos(int x, int y){
-        this.xDelta = x;
-        this.yDelta = y;
-    }
 
     /**
      * method that redraws a rectangle with a simple loop
@@ -80,26 +80,6 @@ public class GamePanel extends JPanel {
      */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        updateRectangle();
-        g.setColor(color);
-        g.fillRect((int)xDelta, (int)yDelta,200,50);
-    }
-
-    private void updateRectangle(){
-        xDelta += xDir;
-        if(xDelta >= panelDimension.width - 200 || xDelta < 0){
-            xDir *= -1;
-            color = getRndColor();
-        }
-        yDelta += yDir;
-        if(yDelta >= panelDimension.height - 50 || yDelta < 0){
-            yDir *= -1;
-            color = getRndColor();
-        }
-    }
-
-    private Color getRndColor() {
-        return new Color(rnd.nextInt(0, 255), rnd.nextInt(0, 255), rnd.nextInt(0, 255));
-        // ieri non ho mangiato niente
+        g.drawImage(img.getSubimage(0,0,64,40), 0 ,0 , 128, 80, null);
     }
 }
