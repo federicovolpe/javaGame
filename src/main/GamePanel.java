@@ -2,39 +2,55 @@ package main;
 
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import static utils.Constants.PlayerConstants.*;
+import static utils.Constants.Directions.*;
 
 public class GamePanel extends JPanel {
 
-    //crezione di una classe di tipo mouse inputs per poter riferire ad un 
-    //unico oggetto
+    // crezione di una classe di tipo mouse inputs per poter riferire ad un
+    // unico oggetto
     private final MouseInputs mouseInputs = new MouseInputs(this);
 
-    //variables that are useful
-    private float xDelta = 100, yDelta = 100;//remembers the coordinates position of the object
+    // variables that are useful
+    private float xDelta = 100, yDelta = 100;// remembers the coordinates position of the object
     private Dimension panelDimension = new Dimension(1280, 800);
     private BufferedImage img;
+    private BufferedImage[][] animations;
+    private int aniTick, aniIndex, aniSpeed = 2;
+    private int PlayerAction = ATTACK_JUMP_1;
+    private int PlayerDirection = -1;
+    private boolean moving = false;
 
     /**
      * adds all the keylisteners
      */
-    public GamePanel(){
+    public GamePanel() {
         importImg();
+        loadAnimations();
         addKeyListener(new KeyboardInputs(this));
 
-        //classe che consente di ricevere inputs dal mouse
-        //come clicked pressed e released
+        // classe che consente di ricevere inputs dal mouse
+        // come clicked pressed e released
         addMouseListener(mouseInputs);
 
-        //classe che osserva i movimenti del mouse
-        addMouseMotionListener(mouseInputs );
+        // classe che osserva i movimenti del mouse
+        addMouseMotionListener(mouseInputs);
         setPanelSize();
+    }
+
+    private void loadAnimations() {
+        animations = new BufferedImage[9][6];
+        for (int i = 0; i < animations.length; i++) {
+            for (int j = 0; j < animations[i].length; j++) {
+                animations[i][j] = img.getSubimage(64 * j, 40 * i, 64, 40);
+            }
+        }
     }
 
     private void importImg() {
@@ -43,11 +59,18 @@ public class GamePanel extends JPanel {
             img = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
-     * method to set the size of the panel, if we do it on the gamewindow the border interfere
+     * method to set the size of the panel, if we do it on the gamewindow the border
+     * interfere
      */
     private void setPanelSize() {
         setMinimumSize(panelDimension);
@@ -55,31 +78,64 @@ public class GamePanel extends JPanel {
         setPreferredSize(panelDimension);
     }
 
-    /**
-     * metodo che ricevuto un input numerico cambia la posizione orizzontale
-     *  del pannello prima di ripitturarlo
-     * @param x delta di cui spostare orizzontalmente l'oggetto
-     */
-    public void changeXDelta(int x){
-        this.xDelta += x;
+    public void setDirection(int direction) {
+        this.PlayerDirection = direction;
+        moving = true;
     }
 
-    /**
-     * metodo che ricevuto un input numerico cambia la posizione verticale
-     *  del pannello prima di ripitturarlo
-     * @param y delta di cui spostare orizzontalmente l'oggetto
-     */
-    public void changeYDelta(int y){
-        this.yDelta += y;
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
-
 
     /**
      * method that redraws a rectangle with a simple loop
-     * @g 
+     * 
+     * @g
      */
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(img.getSubimage(0,0,64,40), 0 ,0 , 128, 80, null);
+        updateAnimationTick();
+        setAnimation();
+        updatePos();
+        g.drawImage(animations[PlayerAction][aniIndex], (int) xDelta, (int) yDelta, 128, 80, null);
+    }
+
+    private void setAnimation() {
+        if (moving) {
+            PlayerAction = RUNNING;
+        } else {
+            PlayerAction = IDLE;
+        }
+    }
+
+    private void updatePos() {
+        if (moving) {
+            switch (PlayerDirection) {
+                case LEFT:
+                    xDelta -= 10;
+                    break;
+                case UP:
+                    yDelta -= 10;
+                    break;
+                case RIGHT:
+                    xDelta += 10;
+                    break;
+                case DOWN:
+                    yDelta += 10;
+                    break;
+            }
+        }
+    }
+
+    private void updateAnimationTick() {
+        aniTick++;
+        if (aniTick >= aniSpeed) {
+            aniTick = 0;
+            aniIndex++;
+            if (aniIndex >= GetSpriteAmount(PlayerAction)) {
+                aniIndex = 0;
+            }
+        }
+
     }
 }

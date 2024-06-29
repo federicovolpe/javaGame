@@ -11,15 +11,16 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     /**
      * constructor method for a reciever of commands from the mouse
-     * @param gamePanel game panel from which this class connects to 
+     * 
+     * @param gamePanel game panel from which this class connects to
      */
-    public MouseInputs(GamePanel gamePanel){
+    public MouseInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        //metodo che osserva quando è stato cliccato il tasto del mouse
+        // metodo che osserva quando è stato cliccato il tasto del mouse
         System.out.println("interessante... hai cliccato il mouse");
     }
 
@@ -50,6 +51,5 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
     }
 }

@@ -3,6 +3,8 @@ package inputs;
 import main.Game;
 import main.GamePanel;
 
+import static utils.Constants.Directions.*;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -33,25 +35,25 @@ public class KeyboardInputs implements KeyListener {
         switch(e.getKeyCode()){
             case KeyEvent.VK_W:
                 System.out.println("premuto il tasto W");
-                gamePanel.changeYDelta(-5);
+                gamePanel.setDirection(UP);
                 break;
             case KeyEvent.VK_A:
                 System.out.println("premuto il tasto A");
-                gamePanel.changeXDelta(-5);
+                gamePanel.setDirection(LEFT);
                 break;
             case KeyEvent.VK_S:
                 System.out.println("premuto il tasto S");
-                gamePanel.changeYDelta(5);
+                gamePanel.setDirection(DOWN);
                 break;
             case KeyEvent.VK_D:
                 System.out.println("premuto il tasto D");
-                gamePanel.changeXDelta(5);
+                gamePanel.setDirection(RIGHT);
                 break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        gamePanel.setMoving(false);
     }
 }
