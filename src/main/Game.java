@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.Graphics;
+
+import entities.Player;
+
 public class Game implements Runnable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -7,15 +11,23 @@ public class Game implements Runnable {
     private final int FPS = 30; // how many frames arecreated in a second
     private final int UPS = 30;
 
+    private Player player;
+
     /**
      * creates a gamewindow to which assign a gamepanel and starts the gameloop
      */
     public Game() {
-        gamePanel = new GamePanel();
+        initClasses();
+        gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         // funzione che richiede l'attenzione del programma sul pannello creato
         gamePanel.requestFocus();
+
         startGameLoop();
+    }
+
+    private void initClasses() {
+        player = new Player(200, 200);
     }
 
     private void startGameLoop() {
@@ -24,7 +36,11 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        gamePanel.updateGame();
+        player.update();
+    }
+
+    public void render(Graphics g) {
+        player.render(g);
     }
 
     @Override
@@ -72,5 +88,13 @@ public class Game implements Runnable {
                 updates = 0;
             }
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void windowFocusLost() {
+        player.resetBooleans();
     }
 }

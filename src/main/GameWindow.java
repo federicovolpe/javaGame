@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
 import javax.swing.*;
 
 public class GameWindow {
@@ -17,6 +20,19 @@ public class GameWindow {
         jframe.pack(); // to apply the dimension of the panel
         jframe.setResizable(false);
         jframe.setVisible(true);
+        jframe.addWindowFocusListener(new WindowFocusListener() {
 
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowGainedFocus'");
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                 gamePanel.getGame().windowFocusLost();
+            }
+            
+        });
     }
 }
