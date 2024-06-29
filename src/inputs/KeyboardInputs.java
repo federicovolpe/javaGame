@@ -1,6 +1,4 @@
 package inputs;
-
-import main.Game;
 import main.GamePanel;
 
 import static utils.Constants.Directions.*;
