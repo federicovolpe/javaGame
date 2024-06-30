@@ -11,7 +11,7 @@ public class GamePanel extends JPanel {
     // crezione di una classe di tipo mouse inputs per poter riferire ad un
     // unico oggetto
     private final MouseInputs mouseInputs = new MouseInputs(this);
-    private Dimension panelDimension = new Dimension(GAME_WITH, GAME_HEIGHT);
+    private Dimension panelDimension = new Dimension(GAME_WIDTH, GAME_HEIGHT);
     private final Game game;
 
     /**
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
         setMinimumSize(panelDimension);
         setMaximumSize(panelDimension);
         setPreferredSize(panelDimension);
-        System.out.println("size : " + GAME_WITH + " " + GAME_HEIGHT);
+        System.out.println("size : " + GAME_WIDTH + " " + GAME_HEIGHT);
     }
 
     /**

@@ -19,7 +19,7 @@ public class Game implements Runnable {
     public final static int TILES_IN_WITH = 26;
     public final static int TILES_IN_HEIGHT = 14;
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
-    public final static int GAME_WITH = TILES_SIZE * TILES_IN_WITH;
+    public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WITH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
     /**
@@ -31,13 +31,13 @@ public class Game implements Runnable {
         /* gameWindow = */new GameWindow(gamePanel);
         // funzione che richiede l'attenzione del programma sul pannello creato
         gamePanel.requestFocus();
-
         startGameLoop();
     }
 
     private void initClasses() {
-        player = new Player(200, 200);
         levelManager = new LevelManager(this);
+        player = new Player(200, 200, (int) (40 * SCALE), (int) (64 * SCALE));
+        player.loadLvlData(levelManager.getCurrLevel().getLvlData());
     }
 
     private void startGameLoop() {

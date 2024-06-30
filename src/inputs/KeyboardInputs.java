@@ -31,19 +31,19 @@ public class KeyboardInputs implements KeyListener {
         // gamepanel
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                System.out.println("premuto il tasto W");
+                // System.out.println("premuto il tasto W");
                 gamePanel.getGame().getPlayer().setUp(true);
                 break;
             case KeyEvent.VK_A:
-                System.out.println("premuto il tasto A");
+                // System.out.println("premuto il tasto A");
                 gamePanel.getGame().getPlayer().setLeft(true);
                 break;
             case KeyEvent.VK_S:
-                System.out.println("premuto il tasto S");
+                // System.out.println("premuto il tasto S");
                 gamePanel.getGame().getPlayer().setDown(true);
                 break;
             case KeyEvent.VK_D:
-                System.out.println("premuto il tasto D");
+                // System.out.println("premuto il tasto D");
                 gamePanel.getGame().getPlayer().setRight(true);
                 break;
         }

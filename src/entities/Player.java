@@ -2,8 +2,12 @@ package entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import main.Game;
+
 import static utils.Constants.PlayerConstants.*;
 import utils.LoadSave;
+import static utils.HelpMethods.CanMoveHere;
 
 public class Player extends Entity {
 
@@ -14,21 +18,27 @@ public class Player extends Entity {
     private boolean moving = false, attacking = false; // jumping = false;
     private boolean left, up, right, down;
     private int playerSpeed = 5;
+    private int[][] levelData;
+    private float xDdrawOffset = 21 * Game.SCALE;
+    private float yDdrawOffset = 4 * Game.SCALE;
 
-    public Player(float x, float y) {
-        super(x, y);
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height);
         loadAnimations();
+        initHitbox(x, y, 20 * Game.SCALE, 28 * Game.SCALE);
     }
 
     public void update() {
         updatePos();
         updateAnimationTick();
         setAnimation();
-
     }
 
     public void render(Graphics g) {
-        g.drawImage(animations[PlayerAction][aniIndex], (int) x, (int) y, 128, 80, null);
+        g.drawImage(animations[PlayerAction][aniIndex],
+                (int) (hitbox.x - xDdrawOffset),
+                (int) (hitbox.y - yDdrawOffset), width, height, null);
+        drawHitbox(g);
     }
 
     private void loadAnimations() {
@@ -40,6 +50,10 @@ public class Player extends Entity {
                 animations[i][j] = img.getSubimage(64 * j, 40 * i, 64, 40);
             }
         }
+    }
+
+    public void loadLvlData(int[][] levelData) {
+        this.levelData = levelData;
     }
 
     private void updateAnimationTick() {
@@ -56,37 +70,38 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
+        if (!left && !right && !up && !down)
+            return;
 
-        if (left && !right) {
-            x -= playerSpeed;
-            moving = true;
-        } else if (right && !left) {
-            x += playerSpeed;
-            moving = true;
-        }
+        float xSpeed = 0, ySpeed = 0;
 
-        if (up && !down) {
-            y -= playerSpeed;
-            moving = true;
-        } else if (down && !up) {
-            y += playerSpeed;
+        if (left && !right)
+            xSpeed = -playerSpeed;
+        else if (right && !left)
+            xSpeed = +playerSpeed;
+
+        if (up && !down)
+            ySpeed = -playerSpeed;
+        else if (down && !up)
+            ySpeed = +playerSpeed;
+
+        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, levelData)) {
+            hitbox.x += xSpeed;
+            hitbox.y += ySpeed;
             moving = true;
         }
     }
 
     private void setAnimation() {
-
         int startAni = PlayerAction;
 
-        if (moving) {
+        if (moving)
             PlayerAction = RUNNING;
-        } else {
+        else
             PlayerAction = IDLE;
-        }
 
-        if (attacking) {
+        if (attacking)
             PlayerAction = ATTACK_1;
-        }
 
         if (startAni != PlayerAction)
             resetAnimation();
