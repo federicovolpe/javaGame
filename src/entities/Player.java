@@ -10,8 +10,8 @@ public class Player extends Entity {
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 2;
     private int PlayerAction = ATTACK_JUMP_1;
-    private int PlayerDirection = -1;
-    private boolean moving = false, attacking = false, jumping = false;
+    // private int PlayerDirection = -1;
+    private boolean moving = false, attacking = false; // jumping = false;
     private boolean left, up, right, down;
     private int playerSpeed = 5;
 
@@ -32,7 +32,7 @@ public class Player extends Entity {
     }
 
     private void loadAnimations() {
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+        BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
         animations = new BufferedImage[9][6];
         for (int i = 0; i < animations.length; i++) {

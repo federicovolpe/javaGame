@@ -3,15 +3,24 @@ package main;
 import java.awt.Graphics;
 
 import entities.Player;
+import levels.LevelManager;
 
 public class Game implements Runnable {
-    private GameWindow gameWindow;
+    // rivate GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;// variable that contains the thread of the game
     private final int FPS = 30; // how many frames arecreated in a second
     private final int UPS = 30;
-
     private Player player;
+    private LevelManager levelManager;
+
+    public final static int TILES_DEFAULT_SIZE = 32;
+    public final static float SCALE = 1.5f;
+    public final static int TILES_IN_WITH = 26;
+    public final static int TILES_IN_HEIGHT = 14;
+    public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+    public final static int GAME_WITH = TILES_SIZE * TILES_IN_WITH;
+    public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
     /**
      * creates a gamewindow to which assign a gamepanel and starts the gameloop
@@ -19,7 +28,7 @@ public class Game implements Runnable {
     public Game() {
         initClasses();
         gamePanel = new GamePanel(this);
-        gameWindow = new GameWindow(gamePanel);
+        /* gameWindow = */new GameWindow(gamePanel);
         // funzione che richiede l'attenzione del programma sul pannello creato
         gamePanel.requestFocus();
 
@@ -28,6 +37,7 @@ public class Game implements Runnable {
 
     private void initClasses() {
         player = new Player(200, 200);
+        levelManager = new LevelManager(this);
     }
 
     private void startGameLoop() {
@@ -37,9 +47,11 @@ public class Game implements Runnable {
 
     public void update() {
         player.update();
+        levelManager.update();
     }
 
     public void render(Graphics g) {
+        levelManager.draw(g);
         player.render(g);
     }
 

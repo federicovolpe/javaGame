@@ -3,19 +3,17 @@ package main;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import static main.Game.*;
 
 public class GamePanel extends JPanel {
 
     // crezione di una classe di tipo mouse inputs per poter riferire ad un
     // unico oggetto
     private final MouseInputs mouseInputs = new MouseInputs(this);
-    private Dimension panelDimension = new Dimension(1280, 800);
+    private Dimension panelDimension = new Dimension(GAME_WITH, GAME_HEIGHT);
     private final Game game;
+
     /**
      * adds all the keylisteners
      */
@@ -39,6 +37,7 @@ public class GamePanel extends JPanel {
         setMinimumSize(panelDimension);
         setMaximumSize(panelDimension);
         setPreferredSize(panelDimension);
+        System.out.println("size : " + GAME_WITH + " " + GAME_HEIGHT);
     }
 
     /**
