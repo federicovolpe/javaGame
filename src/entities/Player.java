@@ -7,7 +7,7 @@ import main.Game;
 
 import static utils.Constants.PlayerConstants.*;
 import utils.LoadSave;
-import static utils.HelpMethods.CanMoveHere;
+import static utils.HelpMethods.*;
 
 public class Player extends Entity {
 
@@ -15,12 +15,19 @@ public class Player extends Entity {
     private int aniTick, aniIndex, aniSpeed = 2;
     private int PlayerAction = ATTACK_JUMP_1;
     // private int PlayerDirection = -1;
-    private boolean moving = false, attacking = false; // jumping = false;
+    private boolean moving = false, attacking = false, jumping = false;
     private boolean left, up, right, down;
     private int playerSpeed = 5;
     private int[][] levelData;
     private float xDdrawOffset = 21 * Game.SCALE;
     private float yDdrawOffset = 4 * Game.SCALE;
+
+    // jumping parameters
+    private float airSpeed = 0f;
+    private float gravity = 0.4f * Game.SCALE;
+    private float jumpSpeed = -2.24f;
+    private float fallSpeedAfterCollision = .5f;
+    private boolean inAir = false;
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -70,25 +77,29 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-        if (!left && !right && !up && !down)
+        if (!left && !right && !inAir)
             return;
 
-        float xSpeed = 0, ySpeed = 0;
+        float xSpeed = 0;
 
-        if (left && !right)
-            xSpeed = -playerSpeed;
-        else if (right && !left)
-            xSpeed = +playerSpeed;
+        if (left)
+            xSpeed -= playerSpeed;
+        if (right)
+            xSpeed += playerSpeed;
 
-        if (up && !down)
-            ySpeed = -playerSpeed;
-        else if (down && !up)
-            ySpeed = +playerSpeed;
+        if (inAir) {
 
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, levelData)) {
+        } else {
+            updataeXPos(xSpeed);
+        }
+
+    }
+
+    private void updataeXPos(float xSpeed) {
+        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)) {
             hitbox.x += xSpeed;
-            hitbox.y += ySpeed;
-            moving = true;
+        } else {// theres still space between the player and the wall
+            hitbox.x = getEntityXPosNextToWall(hitbox, xSpeed);
         }
     }
 

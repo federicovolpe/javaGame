@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.geom.Rectangle2D;
+
 import main.Game;
 
 public class HelpMethods {
@@ -29,5 +31,18 @@ public class HelpMethods {
         if (value >= 48 || value < 0 || value != 11)
             return true;
         return false;
+    }
+
+    public static float getEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
+        int currentTile = (int)(hitbox.x / Game.TILES_SIZE); // the tile the player is currently on
+
+        if(xSpeed > 0){ // the player is going to right
+            int tileXPos = currentTile * Game.TILES_SIZE; // coordinates in pixels
+            int xOffset = (int)(Game.TILES_SIZE - hitbox.width) ;// the difference between the size of the tile and the entity
+            return tileXPos + xOffset -1;
+
+        }else { // the player is going to the left
+            return currentTile * Game.TILES_SIZE;
+        }
     }
 }
