@@ -8,12 +8,12 @@ import utils.LoadSave;
 
 public class LevelManager {
 
-    //private Game game;
+    // private Game game;
     private BufferedImage[] levelSprite;
     private Level levelOne;
 
     public LevelManager(Game game) {
-        //this.game = game;
+        // this.game = game;
         importOutsideSprites();
         levelOne = new Level(LoadSave.getLevelData());
     }
@@ -43,7 +43,7 @@ public class LevelManager {
     public void update() {
 
     }
-    
+
     public Level getCurrLevel() {
         return levelOne;
     }

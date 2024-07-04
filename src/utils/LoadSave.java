@@ -11,9 +11,11 @@ import java.io.IOException;
  * class with the only purpuse of getting the correct sprite of everything
  */
 public class LoadSave {
-    public static final String PLAYER_ATLAS = "resources/sprites.png";
-    public static final String LEVEL_ATLAS = "resources/outside_sprites.png";
-    public static final String LEVEL_ONE_DATA = "resources/level_one_data.png";
+    public static final String PLAYER_ATLAS = "sprites.png";
+    public static final String LEVEL_ATLAS = "outside_sprites.png";
+    public static final String LEVEL_ONE_DATA = "level_one_data.png";
+    public static final String MENU_BUTTONS = "button_atlas.png";
+    public static final String MENU_BOARD = "menu_background_first.png";
 
     /**
      * gets the player sprites
@@ -22,7 +24,8 @@ public class LoadSave {
      */
     public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;
-        InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
+        String path = "/resources/" + fileName;
+        InputStream is = LoadSave.class.getResourceAsStream(path);
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
@@ -30,6 +33,8 @@ public class LoadSave {
         } finally {
             try {
                 is.close();
+            } catch (NullPointerException e) {
+                System.out.println("\n\n\n\ncould not find : " + path + "\n\n\n\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -12,12 +12,12 @@ public class Game implements Runnable {
     private Thread gameThread;// variable that contains the thread of the game
     private final int FPS = 30; // how many frames arecreated in a second
     private final int UPS = 60;
-    
+
     private Playing playing;
     private Menu menu;
 
     public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 1f;
+    public final static float SCALE = 1.5f;
     public final static int TILES_IN_WITH = 26;
     public final static int TILES_IN_HEIGHT = 14;
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
@@ -53,7 +53,13 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.update();
                 break;
+            case OPTIONS:
+                break;
+            case QUIT:
+                System.exit(0);
+                break;
             default:
+                System.exit(0); // exit the program
                 break;
         }
     }
@@ -61,7 +67,7 @@ public class Game implements Runnable {
     public void render(Graphics g) {
         switch (GameStates.state) {
             case MENU:
-            menu.draw(g);
+                menu.draw(g);
                 break;
             case PLAYING:
                 playing.draw(g);
@@ -120,7 +126,7 @@ public class Game implements Runnable {
     }
 
     public void windowFocusLost() {
-        if(GameStates.state == GameStates.PLAYING)
+        if (GameStates.state == GameStates.PLAYING)
             playing.getPlayer().resetBooleans();
     }
 
