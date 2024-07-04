@@ -10,12 +10,12 @@ public class Game implements Runnable {
     private GamePanel gamePanel;
     private Thread gameThread;// variable that contains the thread of the game
     private final int FPS = 30; // how many frames arecreated in a second
-    private final int UPS = 30;
+    private final int UPS = 60;
     private Player player;
     private LevelManager levelManager;
 
     public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 1.5f;
+    public final static float SCALE = 1f;
     public final static int TILES_IN_WITH = 26;
     public final static int TILES_IN_HEIGHT = 14;
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
@@ -46,8 +46,8 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        player.update();
         levelManager.update();
+        player.update();
     }
 
     public void render(Graphics g) {
