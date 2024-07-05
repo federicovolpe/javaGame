@@ -7,11 +7,14 @@ import java.awt.event.MouseEvent;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import ui.PauseOverlay;
 
 public class Playing extends State implements StateMethods {
 
     private Player player;
     private LevelManager levelManager;
+    private PauseOverlay pauseOverlay;
+    private boolean paused = true; // showing the pause screen or
 
     public Playing(Game game) {
         super(game);
@@ -22,6 +25,7 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         player = new Player(200, 200, (int) (40 * Game.SCALE), (int) (64 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrLevel().getLvlData());
+        pauseOverlay = new PauseOverlay();
     }
 
     public Player getPlayer() {
@@ -36,12 +40,15 @@ public class Playing extends State implements StateMethods {
     public void update() {
         levelManager.update();
         player.update();
+
+        pauseOverlay.update();
     }
 
     @Override
     public void draw(Graphics g) {
         levelManager.draw(g);
         player.render(g);
+        pauseOverlay.draw(g);
     }
 
     @Override
@@ -50,21 +57,20 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // metodo che osserva quando è stato cliccato il tasto del mouse
-        System.out.println("interessante... hai cliccato il mouse");
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            player.setAttacking(true);
-        }
+        if (paused)
+            pauseOverlay.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (paused)
+            pauseOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        if (paused)
+            pauseOverlay.mouseMoved(e);
     }
 
     @Override

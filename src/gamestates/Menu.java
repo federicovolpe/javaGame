@@ -37,9 +37,6 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void draw(Graphics g) {
-        System.out.println("background image info:");
-        System.out.println(
-                "menuX" + menuX + "\nmenuY:" + menuY + "\nmenuWidth: " + menuWidth + "\nmenuHeight: " + menuHeight);
         g.drawImage(backgroundBoard, menuX, menuY, menuWidth, menuHeight, null);
         for (MenuButton menuButton : buttons)
             menuButton.draw(g);

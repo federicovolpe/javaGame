@@ -16,6 +16,8 @@ public class LoadSave {
     public static final String LEVEL_ONE_DATA = "level_one_data.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String MENU_BOARD = "menu_background_first.png";
+    public static final String PAUSE_BOARD = "pause_menu.png";
+    public static final String SOUND_BUTTONS = "sound_button.png";
 
     /**
      * gets the player sprites
