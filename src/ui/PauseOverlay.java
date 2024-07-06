@@ -2,6 +2,7 @@ package ui;
 
 import static utils.Constants.UI.PauseButtons.SOUND_SIZE;
 import static utils.Constants.UI.URMButtons.URM_SIZE;
+import static utils.Constants.UI.VolumeButtons.*;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -18,12 +19,14 @@ public class PauseOverlay {
     private SoundButton musicButton, sfxButton;
     private UrmButtons menuB, replayB, unpauseB;
     private Playing playing;
+    private VolumeButton volumeButton;
 
     public PauseOverlay(Playing playing) {
         this.playing = playing;
         loadBackground();
         createSoundbuttons();
         createUrmButtons();
+        createVolumeButton();
     }
 
     private void loadBackground() {
@@ -55,6 +58,12 @@ public class PauseOverlay {
         unpauseB = new UrmButtons(unpauseX, bY, URM_SIZE, URM_SIZE, 0);
     }
 
+    private void createVolumeButton() {
+        int vX = (int) (309 * Game.SCALE);
+        int vY = (int) (278 * Game.SCALE);
+        volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
+    }
+
     public void update() {
         musicButton.update();
         sfxButton.update();
@@ -72,10 +81,13 @@ public class PauseOverlay {
         menuB.draw(g);
         replayB.draw(g);
         unpauseB.draw(g);
+        volumeButton.draw(g);
     }
 
     public void mouseDragged(MouseEvent e) {
-
+        if (volumeButton.isMousePressed()) {
+            volumeButton.changeX(e.getX());
+        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -89,6 +101,8 @@ public class PauseOverlay {
             replayB.setMousePressed(true);
         else if (isIn(e, unpauseB))
             unpauseB.setMousePressed(true);
+        else if (isIn(e, volumeButton))
+            volumeButton.setMousePressed(true);
 
     }
 
@@ -102,8 +116,8 @@ public class PauseOverlay {
         } else if (isIn(e, menuB)) {
             if (menuB.isMousePressed())
                 GameStates.state = GameStates.MENU;
-                // when the game is starting it shoudnt be paused
-                playing.unpauseGame();
+            // when the game is starting it shoudnt be paused
+            playing.unpauseGame();
         } else if (isIn(e, replayB)) {
             if (replayB.isMousePressed())
                 // TODO : replay del livello
@@ -118,6 +132,7 @@ public class PauseOverlay {
         menuB.resetBools();
         replayB.resetBools();
         unpauseB.resetBools();
+        volumeButton.resetBools();
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -126,6 +141,7 @@ public class PauseOverlay {
         menuB.setMouseOver(false);
         replayB.setMouseOver(false);
         unpauseB.setMouseOver(false);
+        volumeButton.setMouseOver(false);
 
         if (isIn(e, musicButton))
             musicButton.setMouseOver(true);
@@ -137,6 +153,8 @@ public class PauseOverlay {
             replayB.setMouseOver(true);
         else if (isIn(e, unpauseB))
             unpauseB.setMouseOver(true);
+        else if (isIn(e, volumeButton))
+            volumeButton.setMouseOver(true);
     }
 
     private boolean isIn(MouseEvent e, PauseButton b) {
