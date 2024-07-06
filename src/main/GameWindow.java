@@ -16,9 +16,10 @@ public class GameWindow {
     public GameWindow(GamePanel gamePanel) {
         jframe = new JFrame();
         jframe.add(gamePanel);
-        jframe.setLocationRelativeTo(null);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jframe.setLocationRelativeTo(null);
         jframe.pack(); // to apply the dimension of the panel
+        jframe.setLocationRelativeTo(null);
         jframe.setResizable(true);
         jframe.setVisible(true);
         jframe.addWindowFocusListener(new WindowFocusListener() {

@@ -30,7 +30,7 @@ public class VolumeButton extends PauseButton {
         for (int i = 0; i < img.length; i++) {
             img[i] = tmp.getSubimage(i * DEFAULT_WIDTH, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         }
-        slider = tmp.getSubimage(3 * DEFAULT_WIDTH, 0, SLIDER_WIDHT, DEFAULT_HEIGHT);
+        slider = tmp.getSubimage(3 * DEFAULT_WIDTH, 0, DEFAULT_SLIDER_WIDTH, DEFAULT_HEIGHT);
     }
 
     public void update() {
