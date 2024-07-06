@@ -42,7 +42,7 @@ public class Player extends Entity {
         g.drawImage(animations[playerAction][aniIndex],
                 (int) (hitbox.x - xDdrawOffset) - lvlOffset,
                 (int) (hitbox.y - yDdrawOffset), width, height, null);
-        drawHitbox(g);
+        // drawHitbox(g);
     }
 
     private void loadAnimations() {
@@ -101,8 +101,9 @@ public class Player extends Entity {
         moving = false;
         if (jumping)
             jump();
-        if (!left && !right && !inAir)
-            return;
+        if (!inAir)
+            if (!left && !right || right && left)
+                return;
 
         float xSpeed = 0;
 

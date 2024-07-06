@@ -1,5 +1,9 @@
 package gamestates;
 
+import static main.Game.GAME_HEIGHT;
+import static main.Game.GAME_WIDTH;
+
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -68,16 +72,19 @@ public class Playing extends State implements StateMethods {
 
         if (xLvlOffset > maxLvlOffset) // offset cannot be greater than the fixed value
             xLvlOffset = maxLvlOffset;
-        else if(xLvlOffset < 0)
+        else if (xLvlOffset < 0)
             xLvlOffset = 0;
     }
 
     @Override
     public void draw(Graphics g) {
         levelManager.draw(g, xLvlOffset);
-        player.render(g,xLvlOffset);
-        if (paused)
+        player.render(g, xLvlOffset);
+        if (paused) {
+            g.setColor(new Color(0, 0, 0, 150));
+            g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             pauseOverlay.draw(g);
+        }
     }
 
     @Override

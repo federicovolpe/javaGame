@@ -1,2 +1,2 @@
 # demo
-![volume button working](vb_working.gif)
+![volume button working](background.gif)

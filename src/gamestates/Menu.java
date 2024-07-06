@@ -1,5 +1,7 @@
 package gamestates;
 
+import static main.Game.GAME_WIDTH;
+
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -11,13 +13,14 @@ import utils.LoadSave;
 public class Menu extends State implements StateMethods {
 
     private MenuButton[] buttons = new MenuButton[3];
-    private BufferedImage backgroundBoard;
+    private BufferedImage backgroundBoard, menuBackground;
     private int menuX, menuY, menuWidth, menuHeight;
 
     public Menu(Game game) {
         super(game);
         loadButtons();
         loadBackground();
+        menuBackground = LoadSave.getSpriteAtlas(LoadSave.MENU_BACKGROUND);
     }
 
     private void loadBackground() {
@@ -36,6 +39,7 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void draw(Graphics g) {
+        g.drawImage(menuBackground, 0, 0, GAME_WIDTH, Game.GAME_HEIGHT, null);
         g.drawImage(backgroundBoard, menuX, menuY, menuWidth, menuHeight, null);
         for (MenuButton menuButton : buttons)
             menuButton.draw(g);
@@ -51,13 +55,10 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
