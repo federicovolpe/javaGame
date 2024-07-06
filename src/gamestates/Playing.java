@@ -3,7 +3,6 @@ package gamestates;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -14,7 +13,7 @@ public class Playing extends State implements StateMethods {
     private Player player;
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
-    private boolean paused = true; // showing the pause screen or
+    private boolean paused = false; // showing the pause screen or
 
     public Playing(Game game) {
         super(game);
@@ -79,6 +78,11 @@ public class Playing extends State implements StateMethods {
             pauseOverlay.mouseMoved(e);
     }
 
+    public void mouseDragged(MouseEvent e) {
+        if (paused)
+            pauseOverlay.mouseDragged(e);
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -100,8 +104,8 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_BACK_SPACE:
                 GameStates.state = GameStates.MENU;
                 break;
-                case KeyEvent.VK_ESCAPE:
-paused = true;
+            case KeyEvent.VK_ESCAPE:
+                paused = true;
                 break;
         }
     }
