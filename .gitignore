@@ -1,4 +1,6 @@
 idea/
 out/
 lvls/
+.idea/
+.vscode/
 javaGame.iml
