@@ -25,7 +25,7 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         player = new Player(200, 200, (int) (40 * Game.SCALE), (int) (64 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrLevel().getLvlData());
-        pauseOverlay = new PauseOverlay();
+        pauseOverlay = new PauseOverlay(this);
     }
 
     public Player getPlayer() {
@@ -36,19 +36,25 @@ public class Playing extends State implements StateMethods {
         player.resetBooleans();
     }
 
+    public void unpauseGame() {
+        paused = false;
+    }
+
     @Override
     public void update() {
-        levelManager.update();
-        player.update();
-
-        pauseOverlay.update();
+        if (!paused) {
+            levelManager.update();
+            player.update();
+        } else
+            pauseOverlay.update();
     }
 
     @Override
     public void draw(Graphics g) {
         levelManager.draw(g);
         player.render(g);
-        pauseOverlay.draw(g);
+        if (paused)
+            pauseOverlay.draw(g);
     }
 
     @Override
@@ -93,6 +99,9 @@ public class Playing extends State implements StateMethods {
                 break;
             case KeyEvent.VK_BACK_SPACE:
                 GameStates.state = GameStates.MENU;
+                break;
+                case KeyEvent.VK_ESCAPE:
+paused = true;
                 break;
         }
     }

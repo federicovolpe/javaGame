@@ -47,21 +47,19 @@ public class HelpMethods {
 
     public static float getYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
         // the tile the player is currently on
-        int currentTile = (int) (hitbox.y / Game.TILES_SIZE); 
+        int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
         // the player is going to down (falling)
-        if (airSpeed > 0) { 
+        if (airSpeed > 0) {
             // coordinates in pixels
-            int tileYPos = currentTile * Game.TILES_SIZE; 
+            int tileYPos = currentTile * Game.TILES_SIZE;
             // the difference between the size of the tile and the
             int yOffset = (int) (Game.TILES_SIZE - hitbox.height);
-            // entity
-            System.out.println("hitting ground on " + hitbox.y + " tilesize : " + tileYPos + " yoffset" + yOffset);
-            System.out.println("new y : " + (tileYPos + yOffset - 1));
+
             return tileYPos + yOffset - 1;
-        } else 
+        } else
             // the player is going up (jumping)
             return currentTile * Game.TILES_SIZE;
-            
+
     }
 
     public static boolean isEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {

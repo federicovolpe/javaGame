@@ -18,6 +18,7 @@ public class LoadSave {
     public static final String MENU_BOARD = "menu_background_first.png";
     public static final String PAUSE_BOARD = "pause_menu.png";
     public static final String SOUND_BUTTONS = "sound_button.png";
+    public static final String URM_BUTTONS = "urm_buttons.png";
 
     /**
      * gets the player sprites
