@@ -20,6 +20,9 @@ public class LoadSave {
     public static final String URM_BUTTONS = "urm_buttons.png";
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
     public static final String MENU_BACKGROUND = "background_menu.png";
+    public static final String PLAYING_BG_IMG = "playing_bg_img.png";
+    public static final String BG_BIG_CLOUDS = "big_clouds.png";
+    public static final String BG_SMALL_CLOUDS = "small_clouds.png";
 
     /**
      * gets the player sprites
