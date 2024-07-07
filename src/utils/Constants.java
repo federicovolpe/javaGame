@@ -1,10 +1,10 @@
 package utils;
 
-import javax.security.auth.login.CredentialException;
-
 import main.Game;
 
 public class Constants {
+
+    public static float GRAVITY = 0.1f * Game.SCALE;
 
     public static class EnemyConstants {
         public static final int CRABBY = 0;
@@ -20,6 +20,9 @@ public class Constants {
 
         public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_D * Game.SCALE);
         public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_D * Game.SCALE);
+
+        public static final int CRABBY_OFFSET_X = (int) (26 * Game.SCALE);
+        public static final int CRABBY_OFFSET_Y = (int) (9 * Game.SCALE);
 
         public static int GetSpriteAmount(int enemy_type, int enemy_state) {
             switch (enemy_type) {

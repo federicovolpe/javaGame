@@ -21,7 +21,7 @@ public class Player extends Entity {
 
     // jumping parameters
     private float airSpeed = 0f; // speed of the fall in a given moment
-    private float gravity = 0.1f * Game.SCALE;
+    private float gravity = utils.Constants.GRAVITY;
     private float jumpSpeed = -4.f * Game.SCALE;
     private float fallSpeedAfterCollision = .5f * Game.SCALE;
     private boolean inAir = false;
@@ -42,7 +42,7 @@ public class Player extends Entity {
         g.drawImage(animations[playerAction][aniIndex],
                 (int) (hitbox.x - xDdrawOffset) - lvlOffset,
                 (int) (hitbox.y - yDdrawOffset), width, height, null);
-        // drawHitbox(g);
+        drawHitbox(g, lvlOffset);
     }
 
     private void loadAnimations() {

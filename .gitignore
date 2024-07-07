@@ -1,6 +1,7 @@
 idea/
 out/
 lvls/
+.DS_Store/
 .idea/
 .vscode/
 javaGame.iml
