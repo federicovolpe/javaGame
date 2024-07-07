@@ -25,7 +25,11 @@ public class HelpMethods {
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
 
-        int value = lvlData[(int) yIndex][(int) xIndex];
+        return isTileSolid((int) xIndex, (int) yIndex, lvlData);
+    }
+
+    public static boolean isTileSolid(int xTile, int yTile, int[][] lvlData) {
+        int value = lvlData[yTile][xTile];
 
         // 48 total number of tiles
         // 0 first type of tiles
@@ -75,4 +79,39 @@ public class HelpMethods {
     public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
         return isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
     }
+
+    public static boolean isAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
+        for (int i = 0; i < xEnd - xStart; i++) {
+            if (isTileSolid(xStart + i, y, lvlData))
+                return false;
+            if (!isTileSolid(xStart + i, y + 1, lvlData))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * checks if in between two entities there are solid blocks
+     * 
+     * @param lvlData
+     * @param firstHitb
+     * @param secondHitb
+     * @param tileY
+     * @return
+     */
+    public static boolean isSightClear(int[][] lvlData,
+            Rectangle2D.Float firstHitb,
+            Rectangle2D.Float secondHitb,
+            int tileY) {
+        int firstXTile = (int) (firstHitb.x / Game.TILES_SIZE);
+        int secondXTile = (int) (secondHitb.x / Game.TILES_SIZE);
+
+        // check if in between the two entities theres a solid block
+        if (firstXTile > secondXTile)
+            return isAllTilesWalkable(secondXTile, firstXTile, tileY, lvlData);
+        else
+            return isAllTilesWalkable(firstXTile, secondXTile, tileY, lvlData);
+
+    }
+
 }
