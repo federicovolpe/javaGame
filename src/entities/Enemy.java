@@ -18,7 +18,7 @@ public abstract class Enemy extends Entity {
     protected int tileY;
     protected float attackDistance = Game.TILES_SIZE;
 
-    public Enemy(float x, float y, int height, int width, int enemyType) {
+    public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, height, width);
         this.enemyType = enemyType;
         initHitbox(x, y, width, height);
@@ -26,7 +26,6 @@ public abstract class Enemy extends Entity {
 
     // the first update is to put everyone to the ground
     protected void firstUpdateCheck(int[][] lvlData) {
-        System.out.println("----------levelData: " + lvlData.length + " " + lvlData[0].length + "-----------");
         if (!isEntityOnFloor(hitbox, lvlData)) // entity is in the air
             inAir = true;
         firstUpdate = false;

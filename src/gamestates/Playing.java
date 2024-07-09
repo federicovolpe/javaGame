@@ -129,6 +129,8 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1)
+            player.setAttacking(true);
     }
 
     @Override

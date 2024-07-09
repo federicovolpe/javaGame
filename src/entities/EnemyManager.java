@@ -7,7 +7,9 @@ import static utils.Constants.EnemyConstants.CRABBY_OFFSET_Y;
 import static utils.Constants.EnemyConstants.CRABBY_WIDTH;
 import static utils.Constants.EnemyConstants.CRABBY_WIDTH_D;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -44,11 +46,12 @@ public class EnemyManager {
     private void drawCrabs(Graphics g, int xLvlOffset) {
         for (Crabby c : crabbies) {
             g.drawImage(crabbyArr[c.getEnemyState()][c.getAniIndex()],
-                    (int) c.getHitbox().getX() - CRABBY_OFFSET_X - xLvlOffset,
-                    (int) c.getHitbox().getY() - CRABBY_OFFSET_Y,
-                    CRABBY_WIDTH,
+                    (int) c.getHitbox().x - CRABBY_OFFSET_X - xLvlOffset + c.flipX(),
+                    (int) c.getHitbox().y - CRABBY_OFFSET_Y,
+                    CRABBY_WIDTH * c.flipW(),
                     CRABBY_HEIGHT,
                     null);
+
             c.drawHitbox(g, xLvlOffset);
         }
     }

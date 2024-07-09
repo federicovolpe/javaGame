@@ -19,7 +19,7 @@ import java.io.IOException;
  * class with the only purpuse of getting the correct sprite of everything
  */
 public class LoadSave {
-    public static final String PLAYER_ATLAS = "sprites.png";
+    public static final String PLAYER_ATLAS = "player_sprites.png";
     public static final String LEVEL_ATLAS = "outside_sprites.png";
     public static final String LEVEL_ONE_DATA = "level_one_long_1e.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
@@ -33,6 +33,7 @@ public class LoadSave {
     public static final String BG_BIG_CLOUDS = "big_clouds.png";
     public static final String BG_SMALL_CLOUDS = "small_clouds.png";
     public static final String CRABBY_SPRITE = "crabby_sprite.png";
+    public static final String STATUS_BAR = "health_power_bar.png";
 
     /**
      * gets the player sprites

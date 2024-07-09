@@ -1,6 +1,7 @@
 package entities;
 
 import static utils.Constants.EnemyConstants.*;
+import static utils.Constants.Directions.*;
 
 import main.Game;
 
@@ -39,5 +40,19 @@ public class Crabby extends Enemy {
                     break;
             }
         }
+    }
+
+    public int flipX() {
+        if (walkDir == RIGHT)
+            return width;
+        else
+            return 0;
+    }
+
+    public int flipW() {
+        if (walkDir == RIGHT)
+            return -1;
+        else
+            return 1;
     }
 }

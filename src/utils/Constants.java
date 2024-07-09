@@ -104,11 +104,9 @@ public class Constants {
         public static final int RUNNING = 1;
         public static final int JUMPING = 2;
         public static final int FALLING = 3;
-        public static final int GROUND = 4;
         public static final int HIT = 5;
-        public static final int ATTACK_1 = 6;
-        public static final int ATTACK_JUMP_1 = 7;
-        public static final int ATTACK_JUMP_2 = 8;
+        public static final int ATTACK_1 = 4;
+        public static final int DEAD = 6;
 
         /**
          * given an action it returns the corrisponding number of sprites
@@ -119,20 +117,15 @@ public class Constants {
                     return 5;
                 case RUNNING:
                     return 6;
-                case JUMPING:
-                    return 3;
                 case FALLING:
                     return 1;
-                case GROUND:
-                    return 2;
                 case HIT:
                     return 4;
+                case JUMPING:
                 case ATTACK_1:
                     return 3;
-                case ATTACK_JUMP_1:
-                    return 3;
-                case ATTACK_JUMP_2:
-                    return 3;
+                case DEAD:
+                    return 8;
                 default:
                     throw new IllegalArgumentException("animation number " + PlayerAction + " not found");
             }
