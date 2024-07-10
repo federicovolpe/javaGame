@@ -54,17 +54,19 @@ public class Crabby extends Enemy {
                     newState(RUNNING);
                     break;
                 case (RUNNING):
-                    if (canSeePlayer(lvlData, player))
+                    if (canSeePlayer(lvlData, player)) {
                         turnsTwardsPlayer(player);
-                    if (isPlayerCloseForAttack(player))
-                        newState(ATTACK);
-                        move(lvlData);
+                        if (isPlayerCloseForAttack(player))
+                            newState(ATTACK);
+                    }
+                    move(lvlData);
                 case ATTACK:
-                    if(aniIndex == 0) attackChecked = false;
+                    if (aniIndex == 0)
+                        attackChecked = false;
                     if (aniIndex == 3 && !attackChecked)
                         checkPlayerHit(attackBox, player);
 
-                        break;
+                    break;
                 case HIT:
                     break;
                 default:

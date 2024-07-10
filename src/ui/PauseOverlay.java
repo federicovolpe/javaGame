@@ -119,9 +119,10 @@ public class PauseOverlay {
             // when the game is starting it shoudnt be paused
             playing.unpauseGame();
         } else if (isIn(e, replayB)) {
-            if (replayB.isMousePressed())
-                // TODO : replay del livello
-                System.out.println("replaying the level");
+            if (replayB.isMousePressed()) {
+                playing.resetAll();
+                playing.unpauseGame();
+            }
         } else if (isIn(e, unpauseB))
             if (unpauseB.isMousePressed())
                 playing.unpauseGame();
