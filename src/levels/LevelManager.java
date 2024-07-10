@@ -44,10 +44,7 @@ public class LevelManager {
     public void draw(Graphics g, int lvlOffset) {
         for (int i = 0; i < Game.TILES_IN_HEIGHT; i++) {
             for (int j = 0; j < levels.get(lvlIndex).getLvlData()[0].length; j++) {
-                
-                System.out.println("i : "+ i+ " j: "+j);
                 int index = levels.get(lvlIndex).getSpriteIndex(j, i);
-                System.out.println("index : "+index);
                 g.drawImage(levelSprite[index], TILES_SIZE * j - lvlOffset, TILES_SIZE * i, TILES_SIZE, TILES_SIZE,
                         null);
             }

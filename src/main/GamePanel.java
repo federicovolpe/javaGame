@@ -37,7 +37,6 @@ public class GamePanel extends JPanel {
         setMinimumSize(panelDimension);
         setMaximumSize(panelDimension);
         setPreferredSize(panelDimension);
-        System.out.println("size : " + GAME_WIDTH + " " + GAME_HEIGHT);
     }
 
     /**

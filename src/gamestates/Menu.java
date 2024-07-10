@@ -1,12 +1,11 @@
 package gamestates;
 
-import static main.Game.GAME_WIDTH;
-
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import main.Game;
+import static main.Game.GAME_WIDTH;
 import ui.MenuButton;
 import utils.LoadSave;
 
@@ -48,7 +47,6 @@ public class Menu extends State implements StateMethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println("entering the game");
             GameStates.state = GameStates.PLAYING;
         }
     }

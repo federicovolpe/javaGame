@@ -32,13 +32,6 @@ public class Level {
 
     private void createLevelData(BufferedImage img) {
         lvlData = getLevelData(img);
-        System.out.println("contenuto di leveldata:");
-        for (int i = 0; i < lvlData.length; i++) {
-            for (int j = 0; j < lvlData[0].length; j++) {
-                System.out.print(" " + lvlData[i][j]);
-            }
-            System.out.println();
-        }
     }
 
     private void createEnemies(BufferedImage img) {

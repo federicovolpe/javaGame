@@ -28,7 +28,6 @@ public class LevelCompletedOverlay {
         bgh = (int) (img.getHeight() * Game.SCALE);
         bgx = Game.GAME_WIDTH / 2 - bgw / 2;
         bgy = (int) (75 * Game.SCALE);
-        System.out.println("bgx: " + bgx + " bgy: " + bgy + " bgw: " + bgw + " bgh:" + bgh);
     }
 
     private void initButtons() {
