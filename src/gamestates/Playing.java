@@ -8,12 +8,12 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import entities.Crabby;
 import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
 import ui.GameOverOverlay;
+import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
 import utils.LoadSave;
 import java.awt.image.BufferedImage;
@@ -27,6 +27,7 @@ public class Playing extends State implements StateMethods {
     private EnemyManager enemyManager;
     private PauseOverlay pauseOverlay;
     private GameOverOverlay gameOverOverlay;
+    private LevelCompletedOverlay levelCompletedOverlay;
     private boolean paused = false; // showing the pause screen or
 
     private int xLvlOffset;
@@ -40,6 +41,7 @@ public class Playing extends State implements StateMethods {
     private int[] smallCloudPos;
     private Random rnd = new Random();
     private boolean gameOver;
+    private boolean lvlCompleted = true;
 
     public Playing(Game game) {
         super(game);
@@ -61,6 +63,7 @@ public class Playing extends State implements StateMethods {
         player.loadLvlData(levelManager.getCurrLevel().getLvlData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
+        levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
     public Player getPlayer() {
@@ -77,13 +80,16 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void update() {
-        if (!paused && !gameOver) {
+        if (paused)
+            pauseOverlay.update();
+        else if (lvlCompleted)
+            levelCompletedOverlay.update();
+        else if (!gameOver) {
             levelManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrLevel().getLvlData(), player);
             checkCloseToBorder();
-        } else
-            pauseOverlay.update();
+        }
     }
 
     // if the player is out of the offset do something
@@ -114,9 +120,10 @@ public class Playing extends State implements StateMethods {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             pauseOverlay.draw(g);
-        } else if (gameOver) {
+        } else if (gameOver)
             gameOverOverlay.draw(g);
-        }
+        else if (lvlCompleted)
+            levelCompletedOverlay.draw(g);
     }
 
     private void drawClouds(Graphics g) {
@@ -158,22 +165,33 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (paused)
-            pauseOverlay.mousePressed(e);
+        if (!gameOver) {
+            if (paused)
+                pauseOverlay.mousePressed(e);
+            else if (lvlCompleted)
+                levelCompletedOverlay.mousePressed(e);
+        }
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver) {
             if (paused)
                 pauseOverlay.mouseReleased(e);
+            else if (lvlCompleted)
+                levelCompletedOverlay.mouseReleased(e);
+        }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver) {
             if (paused)
                 pauseOverlay.mouseMoved(e);
+            else if (lvlCompleted)
+                levelCompletedOverlay.mouseMoved(e);
+        }
     }
 
     public void mouseDragged(MouseEvent e) {
