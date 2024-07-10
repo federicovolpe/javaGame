@@ -1,24 +1,23 @@
 package gamestates;
 
-import static main.Game.GAME_HEIGHT;
-import static main.Game.GAME_WIDTH;
-
+import entities.EnemyManager;
+import entities.Player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import entities.EnemyManager;
-import entities.Player;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 import levels.LevelManager;
 import main.Game;
+import static main.Game.GAME_HEIGHT;
+import static main.Game.GAME_WIDTH;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
-import utils.LoadSave;
-import java.awt.image.BufferedImage;
-import java.util.Random;
 import utils.Constants.Environment;
+import utils.LoadSave;
 
 public class Playing extends State implements StateMethods {
 
@@ -33,15 +32,13 @@ public class Playing extends State implements StateMethods {
     private int xLvlOffset;
     private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
     private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
-    private int lvlTilesWide = LoadSave.getLevelData()[0].length; // the number of tiles of the level in width
-    private int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WITH;
-    private int maxLvlOffset = maxTilesOffset * Game.TILES_SIZE;
+    private int maxLvlOffset ;
 
     private BufferedImage backgroundImg, bigCloud, smallCloud;
     private int[] smallCloudPos;
     private Random rnd = new Random();
     private boolean gameOver;
-    private boolean lvlCompleted = true;
+    private boolean lvlCompleted;
 
     public Playing(Game game) {
         super(game);
@@ -53,6 +50,23 @@ public class Playing extends State implements StateMethods {
             smallCloudPos[i] = (int) (90 * Game.SCALE) + rnd.nextInt((int) (100 * Game.SCALE));
         }
         smallCloud = LoadSave.getSpriteAtlas(LoadSave.BG_SMALL_CLOUDS);
+
+        calcLvlOffset();
+        loadStartLevel();
+    }
+
+    public void loadNextLevel() {
+        resetAll();
+        levelManager.loadNextLevel();
+        player.setSpawn(levelManager.getCurrLevel().getPlayerSpawn());
+    }
+
+    private void loadStartLevel() {
+        enemyManager.loadEnemies(levelManager.getCurrLevel());
+    }
+
+    private void calcLvlOffset() {
+        maxLvlOffset = levelManager.getCurrLevel().getLvlOffset();
     }
 
     private void initClasses() {
@@ -60,7 +74,9 @@ public class Playing extends State implements StateMethods {
         enemyManager = new EnemyManager(this);
 
         player = new Player(200, 200, (int) (40 * Game.SCALE), (int) (64 * Game.SCALE), this);
+        player.setSpawn(levelManager.getCurrLevel().getPlayerSpawn());
         player.loadLvlData(levelManager.getCurrLevel().getLvlData());
+
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
@@ -148,12 +164,17 @@ public class Playing extends State implements StateMethods {
     public void resetAll() {
         gameOver = false;
         paused = false;
+        lvlCompleted = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public void setLevelCompeted() {
+        lvlCompleted = true;
     }
 
     @Override
@@ -250,5 +271,12 @@ public class Playing extends State implements StateMethods {
                     player.setJump(false);
                     break;
             }
+    }
+
+    public EnemyManager getEnemyManager () {
+        return enemyManager;
+    }
+    public void setMaxLvlOffset(int lvlOffset){
+        this.maxLvlOffset = lvlOffset;
     }
 }

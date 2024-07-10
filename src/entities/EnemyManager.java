@@ -1,18 +1,18 @@
 package entities;
 
+import gamestates.Playing;
+import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+import levels.Level;
 import static utils.Constants.EnemyConstants.CRABBY_HEIGHT;
 import static utils.Constants.EnemyConstants.CRABBY_HEIGHT_D;
 import static utils.Constants.EnemyConstants.CRABBY_OFFSET_X;
 import static utils.Constants.EnemyConstants.CRABBY_OFFSET_Y;
 import static utils.Constants.EnemyConstants.CRABBY_WIDTH;
 import static utils.Constants.EnemyConstants.CRABBY_WIDTH_D;
-
-import java.awt.geom.Rectangle2D;
-import java.awt.Graphics;
-import java.util.List;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import gamestates.Playing;
 import utils.LoadSave;
 
 // all the code necessary for enemies to work
@@ -25,18 +25,22 @@ public class EnemyManager {
     public EnemyManager(Playing playing) {
         this.playing = playing;
         loadEnemyImages();
-        addEnemies();
     }
 
-    private void addEnemies() {
-        crabbies = LoadSave.getCrabs();
+    public void loadEnemies(Level level) {
+        crabbies = level.getCrabs();
     }
 
     public void update(int[][] lvlData, Player player) {
+        boolean isAnyActive = false;
         for (Crabby c : crabbies) {
-            if (c.isActive())
+            if (c.isActive()){
                 c.update(lvlData, player);
+                isAnyActive = true;
+            }
         }
+        if(!isAnyActive)
+            playing.setLevelCompeted();
     }
 
     public void draw(Graphics g, int xLvlOffset) {

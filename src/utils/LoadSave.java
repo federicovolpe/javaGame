@@ -1,19 +1,12 @@
 package utils;
 
-import static utils.Constants.EnemyConstants.CRABBY;
-
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import entities.Crabby;
-import main.Game;
-
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 /**
  * class with the only purpuse of getting the correct sprite of everything
@@ -21,7 +14,6 @@ import java.io.IOException;
 public class LoadSave {
     public static final String PLAYER_ATLAS = "player_sprites.png";
     public static final String LEVEL_ATLAS = "outside_sprites.png";
-    public static final String LEVEL_ONE_DATA = "level_one_data_long.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String MENU_BOARD = "menu_background_first.png";
     public static final String PAUSE_BOARD = "pause_menu.png";
@@ -48,49 +40,44 @@ public class LoadSave {
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             try {
                 is.close();
             } catch (NullPointerException e) {
                 System.out.println("\n\n\n\ncould not find : " + path + "\n\n\n\n");
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return img;
     }
 
-    public static List<Crabby> getCrabs() {
-        BufferedImage img = getSpriteAtlas(LEVEL_ONE_DATA);
-        List<Crabby> crabbyList = new ArrayList<>();
+    public static BufferedImage[] getAllLevels() {
+        URL url = LoadSave.class.getResource("/resources/lvls");
+		File file = null;
 
-        for (int i = 0; i < img.getHeight(); i++) {
-            for (int j = 0; j < img.getWidth(); j++) {
-                Color color = new Color(img.getRGB(j, i));
-                int value = color.getGreen();
-                if (value == CRABBY)
-                    crabbyList.add(new Crabby(j * Game.TILES_SIZE, i * Game.TILES_SIZE));
-            }
-        }
-        return crabbyList;
-    }
+		try {
+			file = new File(url.toURI());
+		} catch (URISyntaxException e) {
+		}
 
-    public static int[][] getLevelData() {
+		File[] files = file.listFiles();
+		File[] filesSorted = new File[files.length];
 
-        BufferedImage img = getSpriteAtlas(LEVEL_ONE_DATA);
-        int[][] lvlData = new int[img.getHeight()][img.getWidth()];
+		for (int i = 0; i < filesSorted.length; i++)
+			for (int j = 0; j < files.length; j++) {
+				if (files[j].getName().equals((i + 1) + ".png"))
+					filesSorted[i] = files[j];
 
-        for (int i = 0; i < img.getHeight(); i++) {
-            for (int j = 0; j < img.getWidth(); j++) {
-                Color color = new Color(img.getRGB(j, i));
-                int value = color.getRed();
-                if (value >= 48) {
-                    value = 0;
-                }
-                lvlData[i][j] = color.getRed();
-            }
-        }
-        return lvlData;
+			}
+
+		BufferedImage[] imgs = new BufferedImage[filesSorted.length];
+
+		for (int i = 0; i < imgs.length; i++)
+			try {
+				imgs[i] = ImageIO.read(filesSorted[i]);
+			} catch (IOException e) {
+			}
+
+		return imgs;
     }
 }

@@ -1,14 +1,13 @@
 package ui;
 
-import java.awt.image.BufferedImage;
-
+import gamestates.GameStates;
 import gamestates.Playing;
-import inputs.MouseInputs;
-import main.Game;
-import utils.LoadSave;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import main.Game;
 import static utils.Constants.UI.URMButtons.*;
+import utils.LoadSave;
 
 public class LevelCompletedOverlay {
 
@@ -62,11 +61,13 @@ public class LevelCompletedOverlay {
 
     public void mouseReleased(MouseEvent e) {
         if (isIn(menu, e)) {
-            if (menu.isMousePressed())
-                System.out.println("going to the menu");
+            if (menu.isMousePressed()){
+                playing.resetAll();
+                GameStates.state = GameStates.MENU;
+            }
         } else if (isIn(next, e))
             if (next.isMousePressed())
-                System.out.println("playing next");
+                playing.loadNextLevel();
         menu.resetBools();
         next.resetBools();
     }

@@ -1,17 +1,16 @@
 package entities;
 
+import gamestates.Playing;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-
-import gamestates.Playing;
 import main.Game;
-
 import static utils.Constants.EnemyConstants.ATTACK;
 import static utils.Constants.PlayerConstants.*;
-import utils.LoadSave;
 import static utils.HelpMethods.*;
-import java.awt.geom.Rectangle2D;
+import utils.LoadSave;
 
 public class Player extends Entity {
 
@@ -64,6 +63,12 @@ public class Player extends Entity {
         loadAnimations();
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (27 * Game.SCALE));
         initAttackBox();
+    }
+    public void setSpawn(Point spawn) {
+        this.x = spawn.x;
+        this.y = spawn.y;
+        hitbox.x = x;
+        hitbox.y = y;
     }
 
     private void initAttackBox() {
