@@ -50,7 +50,7 @@ public class EnemyManager {
     private void drawCrabs(Graphics g, int xLvlOffset) {
         for (Crabby c : crabbies) {
             if (c.isActive()) {
-                g.drawImage(crabbyArr[c.getEnemyState()][c.getAniIndex()],
+                g.drawImage(crabbyArr[c.getState()][c.getAniIndex()],
                         (int) c.getHitbox().x - CRABBY_OFFSET_X - xLvlOffset + c.flipX(),
                         (int) c.getHitbox().y - CRABBY_OFFSET_Y,
                         CRABBY_WIDTH * c.flipW(),

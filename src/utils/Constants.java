@@ -4,8 +4,8 @@ import main.Game;
 
 public class Constants {
 
-    public static float GRAVITY = 0.1f * Game.SCALE;
-
+    public static final float GRAVITY = 0.1f * Game.SCALE;
+    public static final int ANI_SPEED = 7;
     public static class EnemyConstants {
         public static final int CRABBY = 0;
 

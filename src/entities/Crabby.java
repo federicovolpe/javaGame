@@ -1,26 +1,25 @@
 package entities;
 
-import static utils.Constants.EnemyConstants.*;
-import static utils.Constants.Directions.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.Graphics;
 import java.awt.Color;
-
+import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import main.Game;
+import static utils.Constants.Directions.*;
+import static utils.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy {
 
-    private Rectangle2D.Float attackBox;
+    
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
-        initHitbox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
+        initHitbox(22 , 19 );
         initAttackBox();
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x, y, (int) (82 * Game.SCALE), (int) (19 * Game.SCALE));
+        attackBox = new Rectangle2D.Float(x, y,82, 19);
         attackBoxOffsetX = (int) (Game.SCALE * 30);
     }
 
@@ -34,7 +33,7 @@ public class Crabby extends Enemy {
 
     public void draw(Graphics g, int xLvlOffset) {
         g.setColor(Color.GREEN);
-        g.drawRect((int) attackBox.x - xLvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+        drawAttackBox(g, xLvlOffset);
     }
 
     private void updateAttackBox() {
@@ -49,7 +48,7 @@ public class Crabby extends Enemy {
         if (inAir) { // keep falling down
             updateInAir(lvlData);
         } else { // just touched the floor
-            switch (enemyState) {
+            switch (state) {
                 case (IDLE):
                     newState(RUNNING);
                     break;

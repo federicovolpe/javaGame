@@ -1,12 +1,11 @@
 package ui;
 
-import java.awt.Graphics;
-import java.awt.Color;
-
 import gamestates.GameStates;
 import gamestates.Playing;
-import main.Game;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import main.Game;
 
 public class GameOverOverlay {
 

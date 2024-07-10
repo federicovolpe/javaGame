@@ -1,12 +1,10 @@
 package inputs;
 
-import main.GamePanel;
-
+import gamestates.GameStates;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import gamestates.GameStates;
+import main.GamePanel;
 
 public class MouseInputs implements MouseListener, MouseMotionListener {
     private GamePanel gamePanel;

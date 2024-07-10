@@ -1,15 +1,14 @@
 package ui;
 
-import static utils.Constants.UI.PauseButtons.SOUND_SIZE;
-import static utils.Constants.UI.URMButtons.URM_SIZE;
-import static utils.Constants.UI.VolumeButtons.*;
+import gamestates.GameStates;
+import gamestates.Playing;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
-import gamestates.GameStates;
-import gamestates.Playing;
 import main.Game;
+import static utils.Constants.UI.PauseButtons.SOUND_SIZE;
+import static utils.Constants.UI.URMButtons.URM_SIZE;
+import static utils.Constants.UI.VolumeButtons.*;
 import utils.LoadSave;
 
 public class PauseOverlay {

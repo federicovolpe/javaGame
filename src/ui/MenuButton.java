@@ -1,12 +1,12 @@
 package ui;
 
 
-import java.awt.image.BufferedImage;
-import static utils.Constants.UI.Buttons.*;
 import gamestates.GameStates;
-import utils.LoadSave;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import static utils.Constants.UI.Buttons.*;
+import utils.LoadSave;
 
 public class MenuButton {
     private int xPos, yPos, rowIndex, index;
