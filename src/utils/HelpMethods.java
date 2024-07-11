@@ -10,19 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.Game;
-import objects.GameContainer;
-import objects.Potion;
 
 import static utils.Constants.EnemyConstants.CRABBY;
-import static utils.Constants.ObjectConstants.*;
 
 public class HelpMethods {
   public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
     if (!isSolid(x, y, lvlData))
       if (!isSolid(x + width, y + height, lvlData))
         if (!isSolid(x + width, y, lvlData))
-          if (!isSolid(x, y + height, lvlData))
-            return true;
+          return !isSolid(x, y + height, lvlData);
     return false;
   }
 
@@ -46,9 +42,7 @@ public class HelpMethods {
     // 48 total number of tiles
     // 0 first type of tiles
     // 11 empty tile
-    if (value >= 48 || value < 0 || value != 11)
-      return true;
-    return false;
+    return value != 11;
   }
 
   public static float getEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
@@ -83,8 +77,7 @@ public class HelpMethods {
   public static boolean isEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
     // check the pixel on the bottom left and bottom right
     if (!isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
-      if (!isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
-        return false;
+      return isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
     return true;
   }
 
@@ -107,12 +100,6 @@ public class HelpMethods {
 
   /**
    * checks if in between two entities there are solid blocks
-   *
-   * @param lvlData
-   * @param firstHitb
-   * @param secondHitb
-   * @param tileY
-   * @return
    */
   public static boolean isSightClear(int[][] lvlData,
                                      Rectangle2D.Float firstHitb,
@@ -168,39 +155,25 @@ public class HelpMethods {
           return new Point(j * Game.TILES_SIZE, i * Game.TILES_SIZE);
       }
     }
-    return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
+    return new Point(Game.TILES_SIZE, Game.TILES_SIZE);
   }
 
-  public static List<Potion> getPotions(BufferedImage img) {
-    List<Potion> potionList = new ArrayList<>();
+  @FunctionalInterface
+  public interface GameObjectFactory<T> {
+    T create(int x, int y, int value);
+  }
 
+  public static <T> List<T> getGameObjects(BufferedImage img, List<Integer> validValues, GameObjectFactory<T> factory) {
+    List<T> objects = new ArrayList<>();
     for (int i = 0; i < img.getHeight(); i++) {
       for (int j = 0; j < img.getWidth(); j++) {
         Color color = new Color(img.getRGB(j, i));
         int value = color.getBlue();
-        if (value == RED_POTION || value == BLUE_POTION)
-          potionList.add(new Potion(j * Game.TILES_SIZE, i * Game.TILES_SIZE, value));
-      }
-    }
-    System.out.println("found " + potionList.size() + " potions");
-    return potionList;
-  }
-
-  public static List<GameContainer> getContainers(BufferedImage img) {
-    List<GameContainer> containerList = new ArrayList<>();
-
-    for (int i = 0; i < img.getHeight(); i++) {
-      for (int j = 0; j < img.getWidth(); j++) {
-        Color color = new Color(img.getRGB(j, i));
-        int value = color.getBlue();
-        if (value == BARREL || value == BOX) {
-          System.out.println("trovato un container di tipo: " + value);
-          containerList.add(new GameContainer(j * Game.TILES_SIZE, i * Game.TILES_SIZE, value));
+        if (validValues.contains(value)) {
+          objects.add(factory.create(j * Game.TILES_SIZE, i * Game.TILES_SIZE, value));
         }
       }
     }
-    System.out.println("found " + containerList.size() + " containers");
-    return containerList;
+    return objects;
   }
-
 }

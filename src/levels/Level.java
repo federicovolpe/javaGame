@@ -7,15 +7,19 @@ import java.util.List;
 import main.Game;
 import objects.GameContainer;
 import objects.Potion;
+import objects.Spike;
 import utils.HelpMethods;
+
+import static utils.Constants.ObjectConstants.*;
 import static utils.HelpMethods.*;
 
 public class Level {
     private int[][] lvlData;
-    private BufferedImage img;
+    private final BufferedImage img;
     private List<Crabby> crabs;
     private List<Potion> potions;
     private List<GameContainer> containers;
+    private List<Spike> spikes;
     private int lvlTilesWide ; // the number of tiles of the level in width
     private int maxTilesOffset;
     private int maxLvlOffset ;
@@ -27,16 +31,22 @@ public class Level {
         createEnemies(img);
         createPotions(img);
         createContainers(img);
+        //createCannons(img);
+        createSpikes(img);
         calcLvlOffsets();
         calcPlayerSpawn(img);
     }
 
+    private void createSpikes(BufferedImage img) {
+        spikes = HelpMethods.getGameObjects(img, List.of(SPIKE), Spike::new);
+    }
+
     private void createContainers(BufferedImage img) {
-        containers = HelpMethods.getContainers(img);
+        containers = HelpMethods.getGameObjects(img, List.of(BARREL, BOX), GameContainer::new);
     }
 
     private void createPotions(BufferedImage img) {
-        potions = HelpMethods.getPotions(img);
+        potions = HelpMethods.getGameObjects(img, List.of(RED_POTION, BLUE_POTION), Potion::new);
     }
 
     private void calcPlayerSpawn(BufferedImage img) {
@@ -81,5 +91,9 @@ public class Level {
 
     public List<GameContainer> getContainers() {
         return containers;
+    }
+
+    public List<Spike> getSpikes() {
+        return spikes;
     }
 }
