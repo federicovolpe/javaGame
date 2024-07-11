@@ -36,8 +36,8 @@ public class Playing extends State implements StateMethods {
   private boolean paused = false; // showing the pause screen or
 
   private int xLvlOffset;
-  private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
-  private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
+  private final int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
+  private final int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
   private int maxLvlOffset;
 
   private BufferedImage backgroundImg, bigCloud, smallCloud;
@@ -175,7 +175,9 @@ public class Playing extends State implements StateMethods {
   public void checkPotionTouched(Rectangle2D.Float hitbox) {
     objectManager.checkObjectTouched(hitbox);
   }
-
+  public void checkObjectAttacked(Rectangle2D.Float attackBox) {
+    objectManager.checkObjectHit(attackBox);
+  }
   public void resetAll() {
     gameOver = false;
     paused = false;
@@ -243,21 +245,11 @@ public class Playing extends State implements StateMethods {
       gameOverOverlay.keyPressed(e);
     else
       switch (e.getKeyCode()) {
-        case KeyEvent.VK_A:
-          player.setLeft(true);
-          break;
-        case KeyEvent.VK_D:
-          player.setRight(true);
-          break;
-        case KeyEvent.VK_SPACE:
-          player.setJump(true);
-          break;
-        case KeyEvent.VK_BACK_SPACE:
-          GameStates.state = GameStates.MENU;
-          break;
-        case KeyEvent.VK_ESCAPE:
-          paused = true;
-          break;
+        case KeyEvent.VK_A -> player.setLeft(true);
+        case KeyEvent.VK_D -> player.setRight(true);
+        case KeyEvent.VK_SPACE -> player.setJump(true);
+        case KeyEvent.VK_BACK_SPACE -> GameStates.state = GameStates.MENU;
+        case KeyEvent.VK_ESCAPE -> paused = true;
       }
   }
 
@@ -265,15 +257,9 @@ public class Playing extends State implements StateMethods {
   public void keyReleased(KeyEvent e) {
     if (!gameOver)
       switch (e.getKeyCode()) {
-        case KeyEvent.VK_A:
-          player.setLeft(false);
-          break;
-        case KeyEvent.VK_D:
-          player.setRight(false);
-          break;
-        case KeyEvent.VK_SPACE:
-          player.setJump(false);
-          break;
+        case KeyEvent.VK_A -> player.setLeft(false);
+        case KeyEvent.VK_D -> player.setRight(false);
+        case KeyEvent.VK_SPACE -> player.setJump(false);
       }
   }
 
@@ -288,8 +274,8 @@ public class Playing extends State implements StateMethods {
   public ObjectManager getObjectManager() {
     return objectManager;
   }
+public LevelManager getLevelManager() {
+    return levelManager;
+}
 
-  public void checkObjectAttacked(Rectangle2D.Float attackBox) {
-    objectManager.checkObjectHit(attackBox);
-  }
 }

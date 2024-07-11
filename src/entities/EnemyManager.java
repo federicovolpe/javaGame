@@ -7,18 +7,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import levels.Level;
-import static utils.Constants.EnemyConstants.CRABBY_HEIGHT;
-import static utils.Constants.EnemyConstants.CRABBY_HEIGHT_D;
-import static utils.Constants.EnemyConstants.CRABBY_OFFSET_X;
-import static utils.Constants.EnemyConstants.CRABBY_OFFSET_Y;
-import static utils.Constants.EnemyConstants.CRABBY_WIDTH;
-import static utils.Constants.EnemyConstants.CRABBY_WIDTH_D;
 import utils.LoadSave;
+
+import static utils.Constants.EnemyConstants.*;
 
 // all the code necessary for enemies to work
 public class EnemyManager {
 
-    private Playing playing;
+    private final Playing playing;
     private BufferedImage[][] crabbyArr;
     private List<Crabby> crabbies = new ArrayList<>();
 
@@ -76,7 +72,7 @@ public class EnemyManager {
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         for (Crabby c : crabbies) {
-            if (c.isActive())
+            if (c.isActive() && !(c.getState() == DEAD))
                 if (attackBox.intersects(c.getHitbox())) {
                     c.hurt(10);
                     return;
@@ -86,6 +82,6 @@ public class EnemyManager {
 
     public void resetAllEnemies() {
         for(Crabby c : crabbies)
-        c.resetEnemy();
+            c.resetEnemy();
     }
 }
