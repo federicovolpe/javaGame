@@ -22,8 +22,8 @@ public class Player extends Entity {
     private final float yDdrawOffset = 4 * Game.SCALE;
 
     // jumping parameters
-    private float jumpSpeed = -4.f * Game.SCALE;
-    private float fallSpeedAfterCollision = .5f * Game.SCALE;
+    private final float jumpSpeed = -4.f * Game.SCALE;
+    private final float fallSpeedAfterCollision = .5f * Game.SCALE;
     private boolean inAir = false;
 
     // Status Bar
@@ -41,7 +41,7 @@ public class Player extends Entity {
     private int healthWidth = heathBarWidth;
 
     private boolean attackChecked;
-    private Playing playing;
+    private final Playing playing;
 
     // changing directions
     private int flipX = 0;
