@@ -9,8 +9,8 @@ public class Potion extends GameObject {
     super(x, y,objTyoe);
     doAnimation = true;
     initHitbox(7,14);
-    xDdrawOffset = (int)(3* Game.SCALE);
-    yDdrawOffset = (int)(2* Game.SCALE);
+    xDrawOffset = (int)(3* Game.SCALE);
+    yDrawOffset = (int)(2* Game.SCALE);
     maxHoverOffset = (int)(10* Game.SCALE);
   }
 

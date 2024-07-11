@@ -65,8 +65,8 @@ public class ObjectManager {
         if (c.getObjType() == BARREL)
           type = 1;
         g.drawImage(containerImgs[type][c.getAniIndex()],
-            (int) (c.getHitbox().x - c.getxDdrawOffset() - xLvlOffset),
-            (int) (c.getHitbox().y - c.getyDdrawOffset()),
+            (int) (c.getHitbox().x - c.getxDrawOffset() - xLvlOffset),
+            (int) (c.getHitbox().y - c.getyDrawOffset()),
             CONTAINER_WIDTH,
             CONTAINER_HEIGHT, null);
         c.drawHitbox(g, xLvlOffset);
@@ -81,8 +81,8 @@ public class ObjectManager {
           type = 1;
 
         g.drawImage(potionsImgs[type][p.getAniIndex()],
-            (int) (p.getHitbox().x - p.getxDdrawOffset() - xLvlOffset),
-            (int) (p.getHitbox().y - p.getyDdrawOffset()),
+            (int) (p.getHitbox().x - p.getxDrawOffset() - xLvlOffset),
+            (int) (p.getHitbox().y - p.getyDrawOffset()),
             POTION_WIDTH,
             POTION_HEIGHT, null);
         p.drawHitbox(g, xLvlOffset);

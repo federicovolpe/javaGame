@@ -17,7 +17,7 @@ public class GameObject {
     protected Rectangle2D.Float hitbox;
     protected boolean doAnimation, active = true;
     protected int aniTick, aniIndex;
-    protected int xDdrawOffset, yDdrawOffset;
+    protected int xDrawOffset, yDrawOffset;
 
     public GameObject (int x, int y, int objType){
         this.x = x;
@@ -56,12 +56,12 @@ public class GameObject {
         doAnimation = objType != BARREL && objType != BOX;
     }
 
-    public int getxDdrawOffset() {
-        return xDdrawOffset;
+    public int getxDrawOffset() {
+        return xDrawOffset;
     }
 
-    public int getyDdrawOffset() {
-        return yDdrawOffset;
+    public int getyDrawOffset() {
+        return yDrawOffset;
     }
 
     public boolean isActive() {
