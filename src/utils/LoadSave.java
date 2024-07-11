@@ -28,7 +28,7 @@ public class LoadSave {
     public static final String STATUS_BAR = "health_power_bar.png";
     public static final String COMPLETED_IMG = "completed_sprite.png"; 
     public static final String POTION_ATLAS = "potions_sprites.png";
-    public static final String CONTAINER_ATLAS = "opjects_sprites.png";
+    public static final String CONTAINER_ATLAS = "objects_sprites.png";
 
     /**
      * gets the player sprites
@@ -54,7 +54,8 @@ public class LoadSave {
     }
 
     public static BufferedImage[] getAllLevels() {
-        URL url = LoadSave.class.getResource("/resources/lvls");
+        URL url = LoadSave.class.getResource("/resources/lvls19" +
+            "");
 		File file = null;
 
 		try {

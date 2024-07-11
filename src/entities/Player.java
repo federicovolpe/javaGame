@@ -37,6 +37,13 @@ public class Player extends Entity {
     private final int heathBarHeight = (int) (4 * Game.SCALE);
     private final int heathBarXStart = (int) (34 * Game.SCALE);
     private final int heathBarYStart = (int) (14 * Game.SCALE);
+    /* power
+    private final int powerBarWidth = (int) (150 * Game.SCALE);
+    private final int powerBarHeight = (int) (4 * Game.SCALE);
+    private final int powerBarXStart = (int) (34 * Game.SCALE);
+    private final int powerBarYStart = (int) (14 * Game.SCALE);*/
+    private final int maxPower = 100;
+    private int currentPower = maxPower;
 
     private int healthWidth = heathBarWidth;
 
@@ -52,7 +59,7 @@ public class Player extends Entity {
         this.playing = playing;
         this.state = IDLE;
         this.maxHealth = 100;
-        this.currentHealth = maxHealth;
+        this.currentHealth = 50;
         this.walkSpeed = 2.0f * Game.SCALE;
         loadAnimations();
         initHitbox(20 ,27);
@@ -78,10 +85,16 @@ public class Player extends Entity {
 
         updateAttackBox();
         updatePos();
+        if(moving)
+            checkPotionTouched();
         if (attacking)
             checkAttack();
         updateAnimationTick();
         setAnimation();
+    }
+
+    private void checkPotionTouched() {
+        playing.checkPotionTouched(hitbox);
     }
 
     private void checkAttack() {
@@ -89,6 +102,7 @@ public class Player extends Entity {
             return;
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
+        playing.checkObjectAttacked(attackBox);
     }
 
     private void updateAttackBox() {
@@ -255,6 +269,16 @@ public class Player extends Entity {
         // game over
         else if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
+    }
+
+    public void changePower(int value){
+        System.out.println("increasing power by: " + value);
+        currentPower += value;
+
+        if (currentPower <= 0)
+            currentPower = 0;
+        else if (currentPower >= maxPower);
+            currentPower = maxPower;
     }
 
     public void setAttacking(boolean attacking) {

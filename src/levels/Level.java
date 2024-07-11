@@ -5,14 +5,17 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import main.Game;
+import objects.GameContainer;
+import objects.Potion;
 import utils.HelpMethods;
-import static utils.HelpMethods.getLevelData;
+import static utils.HelpMethods.*;
 
 public class Level {
     private int[][] lvlData;
     private BufferedImage img;
     private List<Crabby> crabs;
-
+    private List<Potion> potions;
+    private List<GameContainer> containers;
     private int lvlTilesWide ; // the number of tiles of the level in width
     private int maxTilesOffset;
     private int maxLvlOffset ;
@@ -22,8 +25,18 @@ public class Level {
         this.img = img;
         createLevelData(img);
         createEnemies(img);
+        createPotions(img);
+        createContainers(img);
         calcLvlOffsets();
         calcPlayerSpawn(img);
+    }
+
+    private void createContainers(BufferedImage img) {
+        containers = HelpMethods.getContainers(img);
+    }
+
+    private void createPotions(BufferedImage img) {
+        potions = HelpMethods.getPotions(img);
     }
 
     private void calcPlayerSpawn(BufferedImage img) {
@@ -60,5 +73,13 @@ public class Level {
 
     public Point getPlayerSpawn() {
         return playerSpawn;
+    }
+
+    public List<Potion> getPotions() {
+        return potions;
+    }
+
+    public List<GameContainer> getContainers() {
+        return containers;
     }
 }
