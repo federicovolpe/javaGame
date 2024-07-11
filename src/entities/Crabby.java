@@ -8,12 +8,10 @@ import static utils.Constants.Directions.*;
 import static utils.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy {
-
-    
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
-        super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
+        super(x, y, CRABBY_HEIGHT, CRABBY_WIDTH, CRABBY);
         initHitbox(22 , 19 );
         initAttackBox();
     }

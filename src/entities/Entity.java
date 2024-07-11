@@ -8,8 +8,8 @@ import main.Game;
 public abstract class Entity {
     protected float x, y;
     protected int height, width;
-    protected Rectangle2D.Float hitbox;
 
+    protected Rectangle2D.Float hitbox;
     protected int aniTick, aniIndex, state;
     protected float airSpeed;
     protected boolean inAir = false;
@@ -21,11 +21,11 @@ public abstract class Entity {
     
     protected float walkSpeed;
 
-    public Entity(float x, float y, int height, int width) {
+    public Entity(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.height = height;
         this.width = width;
+        this.height = height;
     }
 
     /**

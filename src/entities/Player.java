@@ -55,7 +55,7 @@ public class Player extends Entity {
     private int flipW = 1;
 
     public Player(float x, float y, int width, int height, Playing playing) {
-        super(x, y, width, height);
+        super(x, y, height, width);
         this.playing = playing;
         this.state = IDLE;
         this.maxHealth = 100;
@@ -85,12 +85,17 @@ public class Player extends Entity {
 
         updateAttackBox();
         updatePos();
-        if(moving)
+        if(moving){
             checkPotionTouched();
+        checkSpikesTouched();}
         if (attacking)
             checkAttack();
         updateAnimationTick();
         setAnimation();
+    }
+
+    private void checkSpikesTouched() {
+        playing.checkSpikesTouched(this);
     }
 
     private void checkPotionTouched() {
@@ -323,4 +328,8 @@ public class Player extends Entity {
         if (!isEntityOnFloor(hitbox, levelData))
             inAir = true;
     }
+
+  public void kill() {
+        currentHealth = 0;
+  }
 }

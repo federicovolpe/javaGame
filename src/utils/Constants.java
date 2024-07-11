@@ -61,7 +61,7 @@ public class Constants {
         public static final int DEAD = 4;
 
         public static final int CRABBY_WIDTH_D = 72;
-        public static final int CRABBY_HEIGHT_D = 32;
+        public static final int CRABBY_HEIGHT_D = 32 ;
 
         public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_D * Game.SCALE);
         public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_D * Game.SCALE);

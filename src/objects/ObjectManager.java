@@ -1,5 +1,6 @@
 package objects;
 
+import entities.Player;
 import gamestates.Playing;
 import levels.Level;
 import utils.LoadSave;
@@ -15,8 +16,11 @@ import static utils.Constants.ObjectConstants.*;
 public class ObjectManager {
   private final Playing playing;
   private BufferedImage[][] potionsImgs, containerImgs;
+  private BufferedImage spikeImg;
   private List<Potion> potions;
   private List<GameContainer> containers;
+  private List<Spike> spikes;
+  private List<Cannon> cannons;
 
   public ObjectManager(Playing playing) {
     this.playing = playing;
@@ -41,6 +45,7 @@ public class ObjectManager {
         containerImgs[i][j] = containerSprite.getSubimage(40 * j, 30 * i, 40, 30);
       }
     }
+    spikeImg = LoadSave.getSpriteAtlas(LoadSave.TRAP_ATLAS);
   }
 
   public void update() {
@@ -56,6 +61,22 @@ public class ObjectManager {
   public void draw(Graphics g, int xLvlOffset) {
     drawPotions(g, xLvlOffset);
     drawContainers(g, xLvlOffset);
+    drawTraps(g, xLvlOffset);
+  }
+
+  public void checkSpikesTouched(Player p){
+    for(Spike s: spikes)
+      if(s.getHitbox().intersects(p.getHitbox()))
+        p.kill();
+  }
+
+  private void drawTraps(Graphics g, int xLvlOffset) {
+    for(Spike s : spikes)
+      g.drawImage(spikeImg,
+          (int)(s.getHitbox().x - xLvlOffset),
+          (int)(s.getHitbox().y - s.getyDrawOffset()),
+          SPIKE_WIDTH,
+          SPIKE_HEIGHT, null);
   }
 
   private void drawContainers(Graphics g, int xLvlOffset) {
@@ -93,6 +114,7 @@ public class ObjectManager {
   public void loadObjects(Level newLevel) {
     potions = new ArrayList<>(newLevel.getPotions());
     containers = new ArrayList<>(newLevel.getContainers());
+    spikes = newLevel.getSpikes();
   }
 
   public void checkObjectTouched(Rectangle2D.Float hitbox) {

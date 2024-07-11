@@ -40,7 +40,7 @@ public class Playing extends State implements StateMethods {
   private final int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
   private int maxLvlOffset;
 
-  private BufferedImage backgroundImg, bigCloud, smallCloud;
+  private final BufferedImage backgroundImg, bigCloud, smallCloud;
   private int[] smallCloudPos;
   private Random rnd = new Random();
   private boolean gameOver;
@@ -82,7 +82,7 @@ public class Playing extends State implements StateMethods {
     enemyManager = new EnemyManager(this);
     objectManager = new ObjectManager(this);
 
-    player = new Player(200, 200, (int) (40 * Game.SCALE), (int) (64 * Game.SCALE), this);
+    player = new Player(200, 200 ,(int) (40 * Game.SCALE), (int) (64 * Game.SCALE), this);
     player.setSpawn(levelManager.getCurrLevel().getPlayerSpawn());
     player.loadLvlData(levelManager.getCurrLevel().getLvlData());
 
@@ -278,4 +278,7 @@ public LevelManager getLevelManager() {
     return levelManager;
 }
 
+  public void checkSpikesTouched(Player player) {
+    objectManager.checkSpikesTouched(player);
+  }
 }
