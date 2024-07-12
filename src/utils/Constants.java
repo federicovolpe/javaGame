@@ -6,7 +6,13 @@ public class Constants {
 
     public static final float GRAVITY = 0.1f * Game.SCALE;
     public static final int ANI_SPEED = 7;
-
+public static class Projectiles{
+    public static final int CANNON_BALL_WIDTH_D = 15;
+    public static final int CANNON_BALL_HEIGHT_D = 15;
+    public static final int CANNON_BALL_WIDTH = (int) (CANNON_BALL_WIDTH_D * Game.SCALE);
+    public static final int CANNON_BALL_HEIGHT = (int) (CANNON_BALL_HEIGHT_D * Game.SCALE);
+    public static final float SPEED = 2 * Game.SCALE;
+}
     public static class ObjectConstants {
         
         public static final int RED_POTION = 0 ;
@@ -40,15 +46,12 @@ public class Constants {
         public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * Game.SCALE);
 
         public static int getSprite(int object_type) {
-            switch (object_type) {
-                case RED_POTION, BLUE_POTION:
-                    return 7;
-                case BARREL, BOX:
-                    return 8;
-                case CANNON_LEFT, CANNON_RIGHT:
-                    return 7;
-            }
-            return 1;
+            return switch (object_type) {
+                case RED_POTION, BLUE_POTION -> 7;
+                case BARREL, BOX -> 8;
+                case CANNON_LEFT, CANNON_RIGHT -> 7;
+                default -> 1;
+            };
         }
     }
     public static class EnemyConstants {
@@ -70,42 +73,37 @@ public class Constants {
         public static final int CRABBY_OFFSET_Y = (int) (9 * Game.SCALE);
 
         public static int GetSpriteAmount(int enemy_type, int enemy_state) {
-            switch (enemy_type) {
-                case CRABBY:
-                    switch (enemy_state) {
-                        case IDLE:
-                            return 9;
-                        case RUNNING:
-                            return 6;
-                        case HIT:
-                            return 4;
-                        case ATTACK:
-                            return 7;
-                        case DEAD:
-                            return 5;
-                        default:
-                            throw new IllegalArgumentException("animation number " + enemy_state + " not found");
-                    }
+            if (enemy_type == CRABBY) {
+                switch (enemy_state) {
+                    case IDLE:
+                        return 9;
+                    case RUNNING:
+                        return 6;
+                    case HIT:
+                        return 4;
+                    case ATTACK:
+                        return 7;
+                    case DEAD:
+                        return 5;
+                    default:
+                        throw new IllegalArgumentException("animation number " + enemy_state + " not found");
+                }
             }
             return 0;
         }
 
         public static int getMaxHealth(int enemy_type) {
-            switch (enemy_type) {
-                case CRABBY:
-                    return 10;
-                default:
-                    return 1;
+            if (enemy_type == CRABBY) {
+                return 10;
             }
+            return 1;
         }
 
         public static int getEnemyDmg(int enemy_type) {
-            switch (enemy_type) {
-                case CRABBY:
-                    return 15;
-                default:
-                    return 1;
+            if (enemy_type == CRABBY) {
+                return 15;
             }
+            return 1;
         }
     }
 
@@ -174,23 +172,15 @@ public class Constants {
          * given an action it returns the corrisponding number of sprites
          */
         public static int GetSpriteAmount(int PlayerAction) {
-            switch (PlayerAction) {
-                case IDLE:
-                    return 5;
-                case RUNNING:
-                    return 6;
-                case FALLING:
-                    return 1;
-                case HIT:
-                    return 4;
-                case JUMPING:
-                case ATTACK_1:
-                    return 3;
-                case DEAD:
-                    return 8;
-                default:
-                    throw new IllegalArgumentException("animation number " + PlayerAction + " not found");
-            }
+            return switch (PlayerAction) {
+                case IDLE -> 5;
+                case RUNNING -> 6;
+                case FALLING -> 1;
+                case HIT -> 4;
+                case JUMPING, ATTACK_1 -> 3;
+                case DEAD -> 8;
+                default -> throw new IllegalArgumentException("animation number " + PlayerAction + " not found");
+            };
         }
     }
 }

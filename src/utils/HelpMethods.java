@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.Game;
+import objects.Projectile;
 
 import static utils.Constants.EnemyConstants.CRABBY;
 
@@ -34,6 +35,9 @@ public class HelpMethods {
     float yIndex = y / Game.TILES_SIZE;
 
     return isTileSolid((int) xIndex, (int) yIndex, lvlData);
+  }
+  public static boolean isProjectileHittingLevel(Projectile p, int[][] lvldata){
+    return isSolid(p.getHitbox().x + p.getHitbox().width /2, p.getHitbox().y + p.getHitbox().height/2, lvldata);
   }
 
   public static boolean isTileSolid(int xTile, int yTile, int[][] lvlData) {

@@ -82,6 +82,9 @@ public class GameObject {
     public int getAniIndex() {
         return aniIndex;
     }
+    public int getAniTick() {
+        return aniTick;
+    }
 
     public void setActive(boolean active) {
         this.active = active;
