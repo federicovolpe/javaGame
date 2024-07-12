@@ -5,9 +5,7 @@ import java.awt.geom.Rectangle2D;
 import main.Game;
 
 import static utils.Constants.ANI_SPEED;
-import static utils.Constants.ObjectConstants.BARREL;
-import static utils.Constants.ObjectConstants.BOX;
-import static utils.Constants.ObjectConstants.getSprite;
+import static utils.Constants.ObjectConstants.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -41,10 +39,11 @@ public class GameObject {
             aniIndex++;
             if (aniIndex >= getSprite(objType)) {
                 aniIndex = 0;
-                if(objType == BARREL || objType == BOX){
+                if (objType == BARREL || objType == BOX) {
                     doAnimation = false;
                     active = false;
-                }
+                } else if (objType == CANNON_LEFT || objType == CANNON_RIGHT)
+                    doAnimation = false;
             }
         }
     }
@@ -53,7 +52,7 @@ public class GameObject {
         aniIndex = 0;
         aniTick = 0;
         active = true;
-        doAnimation = objType != BARREL && objType != BOX;
+        doAnimation = objType != BARREL && objType != BOX && objType != CANNON_LEFT && objType != CANNON_RIGHT;
     }
 
     public int getxDrawOffset() {

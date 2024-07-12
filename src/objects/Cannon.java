@@ -4,7 +4,7 @@ import main.Game;
 
 public class Cannon extends GameObject {
 
-	private int tileY;
+	private final int tileY;
 
 	public Cannon(int x, int y, int objType) {
 		super(x, y, objType);
@@ -22,5 +22,4 @@ public class Cannon extends GameObject {
 	public int getTileY() {
 		return tileY;
 	}
-
 }

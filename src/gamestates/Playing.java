@@ -42,7 +42,7 @@ public class Playing extends State implements StateMethods {
 
   private final BufferedImage backgroundImg, bigCloud, smallCloud;
   private int[] smallCloudPos;
-  private Random rnd = new Random();
+  private final Random rnd = new Random();
   private boolean gameOver;
   private boolean lvlCompleted;
 
@@ -95,10 +95,6 @@ public class Playing extends State implements StateMethods {
     return player;
   }
 
-  public void windowFocusLost() {
-    player.resetBooleans();
-  }
-
   public void unpauseGame() {
     paused = false;
   }
@@ -110,7 +106,7 @@ public class Playing extends State implements StateMethods {
     else if (lvlCompleted)
       levelCompletedOverlay.update();
     else if (!gameOver) {
-      objectManager.update();
+      objectManager.update(levelManager.getCurrLevel().getLvlData(), player);
       levelManager.update();
       player.update();
       enemyManager.update(levelManager.getCurrLevel().getLvlData(), player);

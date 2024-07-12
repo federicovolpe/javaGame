@@ -89,12 +89,33 @@ public class HelpMethods {
   }
 
   public static boolean isAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
-    for (int i = 0; i < xEnd - xStart; i++) {
+    if (isAllTilesClear(xStart, xEnd, y, lvlData))
+      for (int i = 0; i < xEnd - xStart; i++) {
+        if (!isTileSolid(xStart + i, y + 1, lvlData))
+          return false;
+      }
+    return true;
+  }
+
+  public static boolean canCannonSeePlayer(int[][] lvlData,
+                                           Rectangle2D.Float firstHitb,
+                                           Rectangle2D.Float secondHitb,
+                                           int tileY) {
+    int firstXTile = (int) (firstHitb.x / Game.TILES_SIZE);
+    int secondXTile = (int) (secondHitb.x / Game.TILES_SIZE);
+
+    // check if in between the two entities theres a solid block
+    if (firstXTile > secondXTile)
+      return isAllTilesClear(secondXTile, firstXTile, tileY, lvlData);
+    else
+      return isAllTilesClear(firstXTile, secondXTile, tileY, lvlData);
+
+  }
+
+  public static boolean isAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
+    for (int i = 0; i < xEnd - xStart; i++)
       if (isTileSolid(xStart + i, y, lvlData))
         return false;
-      if (!isTileSolid(xStart + i, y + 1, lvlData))
-        return false;
-    }
     return true;
   }
 

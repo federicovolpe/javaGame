@@ -35,7 +35,7 @@ public class Level {
     crabs = HelpMethods.getCrabs(img);
     potions = HelpMethods.getGameObjects(img, List.of(RED_POTION, BLUE_POTION), Potion::new);
     containers = HelpMethods.getGameObjects(img, List.of(BARREL, BOX), GameContainer::new);
-    cannons = HelpMethods.getGameObjects(img, List.of(CANNON_LEFT, CANNON_RIGHT), Cannon::new);
+    cannons = HelpMethods.getGameObjects(img, List.of(CANNON_RIGHT, CANNON_LEFT), Cannon::new);
     spikes = HelpMethods.getGameObjects(img, List.of(SPIKE), Spike::new);
     calcLvlOffsets();
     calcPlayerSpawn(img);

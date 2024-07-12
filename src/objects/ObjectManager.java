@@ -3,6 +3,7 @@ package objects;
 import entities.Player;
 import gamestates.Playing;
 import levels.Level;
+import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -12,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static utils.Constants.ObjectConstants.*;
+import static utils.HelpMethods.canCannonSeePlayer;
 
 public class ObjectManager {
   private final Playing playing;
   private BufferedImage[][] potionsImgs, containerImgs;
+  private BufferedImage[] cannonsImgs;
   private BufferedImage spikeImg;
   private List<Potion> potions;
   private List<GameContainer> containers;
@@ -46,9 +49,14 @@ public class ObjectManager {
       }
     }
     spikeImg = LoadSave.getSpriteAtlas(LoadSave.TRAP_ATLAS);
+    cannonsImgs = new BufferedImage[7];
+    BufferedImage tmp = LoadSave.getSpriteAtlas(LoadSave.CANNON_ATLAS);
+    for (int i = 0; i < cannonsImgs.length; i++)
+      cannonsImgs[i] = tmp.getSubimage(i * 40, 0, 40, 26);
+
   }
 
-  public void update() {
+  public void update(int[][] lvlData, Player player) {
     for (Potion p : potions)
       if (p.isActive())
         p.update();
@@ -56,25 +64,73 @@ public class ObjectManager {
     for (GameContainer c : containers)
       if (c.isActive())
         c.update();
+
+    updateCannons(lvlData, player);
+  }
+
+  private void updateCannons(int[][] lvlData, Player player) {
+    for (Cannon c : cannons) {
+      if (!c.doAnimation)
+        if (c.getTileY() == player.getTileY())
+          if (isPlayerInRange(c, player))
+            if (isPlayerInFrontOfCannon(c, player))
+              if (canCannonSeePlayer(lvlData, player.getHitbox(), c.getHitbox(), c.getTileY()))
+                shootCannon(c);
+      c.update();
+    }
+  }
+
+  private void shootCannon(Cannon c) {
+    c.setAnimation(true);
+  }
+
+  private boolean isPlayerInFrontOfCannon(Cannon c, Player player) {
+    if (c.getObjType() == CANNON_LEFT) {
+      return c.getHitbox().x > player.getHitbox().x;
+    } else return c.getHitbox().x < player.getHitbox().x;
+  }
+
+  // TODO copiato da enemy, refactoring?
+  public boolean isPlayerInRange(Cannon c, Player p) {
+    int abs = (int) Math.abs((p.getHitbox().x - c.getHitbox().x));
+    return abs <= Game.TILES_SIZE * 5;
   }
 
   public void draw(Graphics g, int xLvlOffset) {
     drawPotions(g, xLvlOffset);
     drawContainers(g, xLvlOffset);
+    drawCannons(g, xLvlOffset);
     drawTraps(g, xLvlOffset);
   }
 
-  public void checkSpikesTouched(Player p){
-    for(Spike s: spikes)
-      if(s.getHitbox().intersects(p.getHitbox()))
+  private void drawCannons(Graphics g, int xlvlOffset) {
+    for (Cannon c : cannons) {
+      int x = (int) (c.getHitbox().x - xlvlOffset);
+      int width = CANNON_WIDTH;
+      if (c.getObjType() == CANNON_RIGHT) {
+        x += width;
+        width *= -1;
+      }
+      g.drawImage(cannonsImgs[c.getAniIndex()],
+          x,
+          (int) (c.getHitbox().y),
+          width,
+          CANNON_HEIGHT,
+          null);
+    }
+  }
+
+  public void checkSpikesTouched(Player p) {
+    for (Spike s : spikes)
+      if (s.getHitbox().intersects(p.getHitbox()))
         p.kill();
   }
 
   private void drawTraps(Graphics g, int xLvlOffset) {
-    for(Spike s : spikes)
+    for (Spike s : spikes)
       g.drawImage(spikeImg,
-          (int)(s.getHitbox().x - xLvlOffset),
-          (int)(s.getHitbox().y - s.getyDrawOffset()),
+          (int) (s.getHitbox().x - xLvlOffset),
+          (int) (s.getHitbox().y - s.getyDrawOffset()),
           SPIKE_WIDTH,
           SPIKE_HEIGHT, null);
   }
@@ -115,6 +171,7 @@ public class ObjectManager {
     potions = new ArrayList<>(newLevel.getPotions());
     containers = new ArrayList<>(newLevel.getContainers());
     spikes = newLevel.getSpikes();
+    cannons = newLevel.getCannons();
   }
 
   public void checkObjectTouched(Rectangle2D.Float hitbox) {
@@ -142,8 +199,8 @@ public class ObjectManager {
           if (c.getObjType() == BARREL)
             type = 1;
           potions.add(new Potion(
-              (int) (c.getHitbox().x + c.getHitbox().width / 2 ),
-              (int) (c.getHitbox().y - c.getHitbox().height/2),
+              (int) (c.getHitbox().x + c.getHitbox().width / 2),
+              (int) (c.getHitbox().y - c.getHitbox().height / 2),
               type));
           return;
         }
@@ -157,6 +214,8 @@ public class ObjectManager {
     for (Potion p : potions)
       p.reset();
     for (GameContainer c : containers)
+      c.reset();
+    for (Cannon c : cannons)
       c.reset();
   }
 }
