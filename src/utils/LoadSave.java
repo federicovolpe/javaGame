@@ -32,6 +32,7 @@ public class LoadSave {
   public static final String TRAP_ATLAS = "trap_atlas.png";
   public static final String CANNON_ATLAS = "cannon_atlas.png";
   public static final String CANNON_BALL = "ball.png";
+  public static final String GO_BOARD = "death_screen.png";
 
   /**
    * gets the player sprites
@@ -64,15 +65,16 @@ public class LoadSave {
     try {
       file = new File(url.toURI());
     } catch (URISyntaxException e) {
+      e.printStackTrace();
     }
 
     File[] files = file.listFiles();
     File[] filesSorted = new File[files.length];
 
     for (int i = 0; i < filesSorted.length; i++)
-      for (int j = 0; j < files.length; j++) {
-        if (files[j].getName().equals((i + 1) + ".png"))
-          filesSorted[i] = files[j];
+      for (File value : files) {
+        if (value.getName().equals((i + 1) + ".png"))
+          filesSorted[i] = value;
 
       }
 

@@ -12,6 +12,7 @@ import main.Game;
 
 import static utils.Constants.*;
 import static utils.Constants.EnemyConstants.ATTACK;
+import static utils.Constants.ObjectConstants.getSprite;
 import static utils.Constants.PlayerConstants.*;
 import static utils.HelpMethods.*;
 
@@ -65,7 +66,7 @@ public class Player extends Entity {
     this.playing = playing;
     this.state = IDLE;
     this.maxHealth = 100;
-    this.currentHealth = 50;
+    this.currentHealth = maxHealth;
     this.walkSpeed = 2.0f * Game.SCALE;
     loadAnimations();
     initHitbox(20, 27);
@@ -86,7 +87,16 @@ public class Player extends Entity {
   public void update() {
     updateHealthBar();
     if (currentHealth <= 0) {
-      playing.setGameOver(true);
+      if(state != DEAD){
+        state = DEAD;
+        aniTick = 0;
+        aniIndex = 0;
+        playing.setPlayerDying(true);
+      }else if(aniIndex == getSprite(DEAD) -1 && aniTick >= ANI_SPEED -1) // is on the last sprite of the animation
+        playing .setGameOver(true);
+      else
+        updateAnimationTick();
+      //playing.setGameOver(true);
       return;
     }
 
@@ -297,14 +307,6 @@ public class Player extends Entity {
 
   public void setAttacking(boolean attacking) {
     this.attacking = attacking;
-  }
-
-  public boolean isRight() {
-    return right;
-  }
-
-  public boolean isLeft() {
-    return left;
   }
 
   public void setLeft(boolean direction) {

@@ -41,10 +41,11 @@ public class Playing extends State implements StateMethods {
   private int maxLvlOffset;
 
   private final BufferedImage backgroundImg, bigCloud, smallCloud;
-  private int[] smallCloudPos;
+  private final int[] smallCloudPos;
   private final Random rnd = new Random();
   private boolean gameOver;
   private boolean lvlCompleted;
+  private boolean playerDying = false;
 
   public Playing(Game game) {
     super(game);
@@ -82,7 +83,7 @@ public class Playing extends State implements StateMethods {
     enemyManager = new EnemyManager(this);
     objectManager = new ObjectManager(this);
 
-    player = new Player(200, 200 ,(int) (40 * Game.SCALE), (int) (64 * Game.SCALE), this);
+    player = new Player(200, 200, (int) (40 * Game.SCALE), (int) (64 * Game.SCALE), this);
     player.setSpawn(levelManager.getCurrLevel().getPlayerSpawn());
     player.loadLvlData(levelManager.getCurrLevel().getLvlData());
 
@@ -105,6 +106,10 @@ public class Playing extends State implements StateMethods {
       pauseOverlay.update();
     else if (lvlCompleted)
       levelCompletedOverlay.update();
+    //else if (gameOver)
+      //gameOverOverlay.update();
+    else if (playerDying)
+      player.update();
     else if (!gameOver) {
       objectManager.update(levelManager.getCurrLevel().getLvlData(), player);
       levelManager.update();
@@ -151,7 +156,7 @@ public class Playing extends State implements StateMethods {
 
   private void drawClouds(Graphics g) {
     for (int i = 0; i < 3; i++) {
-      g.drawImage(bigCloud, 0 + i * Environment.BIG_CLOUD_DEF_WIDTH - (int) (xLvlOffset * .3),
+      g.drawImage(bigCloud, i * Environment.BIG_CLOUD_DEF_WIDTH - (int) (xLvlOffset * .3),
           (int) (204 * Game.SCALE),
           Environment.BIG_CLOUD_DEF_WIDTH,
           Environment.BIG_CLOUD_HEIGHT, null);
@@ -171,14 +176,17 @@ public class Playing extends State implements StateMethods {
   public void checkPotionTouched(Rectangle2D.Float hitbox) {
     objectManager.checkObjectTouched(hitbox);
   }
+
   public void checkObjectAttacked(Rectangle2D.Float attackBox) {
     objectManager.checkObjectHit(attackBox);
   }
+
   public void resetAll() {
     gameOver = false;
     paused = false;
     lvlCompleted = false;
     player.resetAll();
+    playerDying = false;
     enemyManager.resetAllEnemies();
     objectManager.resetAllObject();
   }
@@ -270,11 +278,16 @@ public class Playing extends State implements StateMethods {
   public ObjectManager getObjectManager() {
     return objectManager;
   }
-public LevelManager getLevelManager() {
+
+  public LevelManager getLevelManager() {
     return levelManager;
-}
+  }
 
   public void checkSpikesTouched(Player player) {
     objectManager.checkSpikesTouched(player);
+  }
+
+  public void setPlayerDying(boolean b) {
+    this.playerDying = b;
   }
 }
