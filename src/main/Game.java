@@ -1,8 +1,11 @@
 package main;
 
+import gamestates.GameOptions;
 import gamestates.GameStates;
 import gamestates.Menu;
 import gamestates.Playing;
+import ui.AudioOptions;
+
 import java.awt.Graphics;
 
 public class Game implements Runnable {
@@ -14,7 +17,8 @@ public class Game implements Runnable {
 
     private Playing playing;
     private Menu menu;
-
+    private AudioOptions audioOptions;
+private GameOptions gameOptions;
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 1f;
     public final static int TILES_IN_WIDTH = 26;
@@ -22,6 +26,7 @@ public class Game implements Runnable {
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+
 
     /**
      * creates a gamewindow to which assign a gamepanel and starts the gameloop
@@ -36,8 +41,10 @@ public class Game implements Runnable {
     }
 
     private void initClasses() { // init class playing and menu
+        audioOptions = new AudioOptions();
         menu = new Menu(this);
         playing = new Playing(this);
+        gameOptions = new GameOptions(this);
     }
 
     private void startGameLoop() {
@@ -54,6 +61,7 @@ public class Game implements Runnable {
                 playing.update();
                 break;
             case OPTIONS:
+                gameOptions.update();
                 break;
             case QUIT:
                 System.exit(0);
@@ -71,6 +79,9 @@ public class Game implements Runnable {
                 break;
             case PLAYING:
                 playing.draw(g);
+                break;
+            case OPTIONS:
+                gameOptions.draw(g);
                 break;
             default:
                 break;
@@ -136,5 +147,13 @@ public class Game implements Runnable {
 
     public Playing getPlaying() {
         return playing;
+    }
+
+    public AudioOptions getAudioOptions() {
+        return audioOptions;
+    }
+
+    public GameOptions getGameOptions() {
+        return gameOptions;
     }
 }

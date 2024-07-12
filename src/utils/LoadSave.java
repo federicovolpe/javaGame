@@ -33,6 +33,7 @@ public class LoadSave {
   public static final String CANNON_ATLAS = "cannon_atlas.png";
   public static final String CANNON_BALL = "ball.png";
   public static final String GO_BOARD = "death_screen.png";
+  public static final String OPTIONS_MENU = "options_background.png";
 
   /**
    * gets the player sprites
