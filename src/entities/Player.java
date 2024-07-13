@@ -1,5 +1,6 @@
 package entities;
 
+import Audio.AudioPlayer;
 import gamestates.Playing;
 
 import java.awt.Color;
@@ -92,8 +93,11 @@ public class Player extends Entity {
         aniTick = 0;
         aniIndex = 0;
         playing.setPlayerDying(true);
-      }else if(aniIndex == getSprite(DEAD) -1 && aniTick >= ANI_SPEED -1) // is on the last sprite of the animation
+        playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
+      }else if(aniIndex == getSprite(DEAD) -1 && aniTick >= ANI_SPEED -1){ // is on the last sprite of the animation game overrr≈
         playing .setGameOver(true);
+      playing.getGame().getAudioPlayer().stopSong();
+      playing.getGame().getAudioPlayer().playSong(AudioPlayer.GAMEOVER);}
       else
         updateAnimationTick();
       //playing.setGameOver(true);
@@ -127,6 +131,7 @@ public class Player extends Entity {
     attackChecked = true;
     playing.checkEnemyHit(attackBox);
     playing.checkObjectAttacked(attackBox);
+    playing.getGame().getAudioPlayer().playAttackSound();
   }
 
   private void updateAttackBox() {
@@ -270,6 +275,7 @@ public class Player extends Entity {
       return;
     inAir = true;
     airSpeed = jumpSpeed;
+    playing.getGame().getAudioPlayer().playEffect(AudioPlayer.JUMP);
   }
 
   private void resetInAir() {

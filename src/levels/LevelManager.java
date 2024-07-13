@@ -11,9 +11,9 @@ import utils.LoadSave;
 
 public class LevelManager {
 
-    private Game game;
+    private final Game game;
     private BufferedImage[] levelSprite;
-    private List<Level> levels;
+    private final List<Level> levels;
     private int lvlIndex = 0;
 
     public LevelManager(Game game) {
@@ -73,7 +73,5 @@ public class LevelManager {
         return levels.get(lvlIndex);
     }
 
-    public int getLevelAmount () {
-        return levels.size();
-    }
+    public int getLvlIndex() {return lvlIndex;}
 }

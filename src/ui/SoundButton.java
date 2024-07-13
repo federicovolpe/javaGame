@@ -55,6 +55,7 @@ public class SoundButton extends PauseButton {
     }
 
     public void update() {
+        colIndex = 0;
         if (muted)
             rowIndex = 1;
         else

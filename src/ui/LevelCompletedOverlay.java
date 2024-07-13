@@ -11,7 +11,7 @@ import utils.LoadSave;
 
 public class LevelCompletedOverlay {
 
-    private Playing playing;
+    private final Playing playing;
     private UrmButtons menu, next;
     private BufferedImage img;
     private int bgx, bgy, bgw, bgh;
@@ -62,11 +62,14 @@ public class LevelCompletedOverlay {
         if (isIn(menu, e)) {
             if (menu.isMousePressed()){
                 playing.resetAll();
-                GameStates.state = GameStates.MENU;
+                playing.setGameState(GameStates.MENU);
             }
         } else if (isIn(next, e))
-            if (next.isMousePressed())
+            if (next.isMousePressed()) {
                 playing.loadNextLevel();
+                //changing the song to the next lvl
+                playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLvlIndex());
+            }
         menu.resetBools();
         next.resetBools();
     }

@@ -1,5 +1,6 @@
 package gamestates;
 
+import Audio.AudioPlayer;
 import entities.EnemyManager;
 import entities.Player;
 
@@ -197,6 +198,7 @@ public class Playing extends State implements StateMethods {
 
   public void setLevelCompeted() {
     lvlCompleted = true;
+    getGame().getAudioPlayer().playSong(AudioPlayer.LVL_COMPLETED);
   }
 
   @Override

@@ -11,8 +11,9 @@ import utils.LoadSave;
 
 public class Menu extends State implements StateMethods {
 
-    private MenuButton[] buttons = new MenuButton[3];
-    private BufferedImage backgroundBoard, menuBackground;
+    private final MenuButton[] buttons = new MenuButton[3];
+    private BufferedImage backgroundBoard;
+        private final BufferedImage menuBackground;
     private int menuX, menuY, menuWidth, menuHeight;
 
     public Menu(Game game) {
@@ -87,6 +88,8 @@ public class Menu extends State implements StateMethods {
             if (isIn(e, menuButton)) {
                 if (menuButton.getMousePressed()) {
                     menuButton.applyGameState();
+                    if(menuButton.getState() == GameStates.PLAYING)
+                        game.getAudioPlayer().setLevelSong(game.getPlaying().getLevelManager().getLvlIndex());
                     break;
                 }
             }

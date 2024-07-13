@@ -9,10 +9,11 @@ import static utils.Constants.UI.Buttons.*;
 import utils.LoadSave;
 
 public class MenuButton {
-    private int xPos, yPos, rowIndex, index;
+    private final int xPos, yPos, rowIndex;
+        private int index;
     private GameStates state;
     private BufferedImage[] imgs;
-    private int xOffsetCenter = B_WIDTH / 2;
+    private final int xOffsetCenter = B_WIDTH / 2;
     private boolean mouseOver, mousePressed;
     private Rectangle bounds;
 
@@ -73,5 +74,7 @@ public class MenuButton {
         mouseOver = false;
         mousePressed = false;
     }
-
+public GameStates getState () {
+        return state;
+}
 }
