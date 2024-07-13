@@ -1,6 +1,5 @@
 package gamestates;
 
-import Audio.AudioPlayer;
 import entities.EnemyManager;
 import entities.Player;
 
@@ -196,9 +195,10 @@ public class Playing extends State implements StateMethods {
     this.gameOver = gameOver;
   }
 
-  public void setLevelCompeted() {
-    lvlCompleted = true;
-    getGame().getAudioPlayer().playSong(AudioPlayer.LVL_COMPLETED);
+  public void setLevelCompeted(boolean levelCompeted) {
+    lvlCompleted = levelCompeted;
+    if (levelCompeted)
+      getGame().getAudioPlayer().setLvlCompleted();
   }
 
   @Override
@@ -206,6 +206,8 @@ public class Playing extends State implements StateMethods {
     if (!gameOver)
       if (e.getButton() == MouseEvent.BUTTON1)
         player.setAttacking(true);
+      else if (e.getButton() == MouseEvent.BUTTON3)
+        player.powerAttack();
   }
 
   @Override
@@ -229,7 +231,7 @@ public class Playing extends State implements StateMethods {
       else if (lvlCompleted)
         levelCompletedOverlay.mouseReleased(e);
 
-    }else
+    } else
       gameOverOverlay.mouseReleased(e);
   }
 
@@ -241,7 +243,7 @@ public class Playing extends State implements StateMethods {
       else if (lvlCompleted)
         levelCompletedOverlay.mouseMoved(e);
 
-    }else
+    } else
       gameOverOverlay.mouseMoved(e);
   }
 

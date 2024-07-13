@@ -90,7 +90,6 @@ public class GameOverOverlay {
   }
 
   private boolean isIn(UrmButtons b, MouseEvent e) {
-    System.out.println("mouse is in buttonnn");
     return b.getBounds().contains(e.getX(), e.getY());
   }
 

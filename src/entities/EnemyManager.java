@@ -36,7 +36,7 @@ public class EnemyManager {
             }
         }
         if(!isAnyActive)
-            playing.setLevelCompeted();
+            playing.setLevelCompeted(true);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
