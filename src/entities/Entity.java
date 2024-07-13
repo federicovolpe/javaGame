@@ -8,17 +8,13 @@ import main.Game;
 public abstract class Entity {
     protected float x, y;
     protected int height, width;
-
     protected Rectangle2D.Float hitbox;
     protected int aniTick, aniIndex, state;
     protected float airSpeed;
     protected boolean inAir = false;
-
     protected int maxHealth;
     protected int currentHealth;
-
     protected Rectangle2D.Float attackBox;
-    
     protected float walkSpeed;
 
     public Entity(float x, float y, int width, int height) {

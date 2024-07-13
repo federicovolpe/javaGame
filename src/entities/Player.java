@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import main.Game;
 
 import static utils.Constants.*;
-import static utils.Constants.EnemyConstants.ATTACK;
 import static utils.Constants.ObjectConstants.getSprite;
 import static utils.Constants.PlayerConstants.*;
 import static utils.HelpMethods.*;
@@ -88,17 +87,17 @@ public class Player extends Entity {
   public void update() {
     updateHealthBar();
     if (currentHealth <= 0) {
-      if(state != DEAD){
+      if (state != DEAD) {
         state = DEAD;
         aniTick = 0;
         aniIndex = 0;
         playing.setPlayerDying(true);
         playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
-      }else if(aniIndex == getSprite(DEAD) -1 && aniTick >= ANI_SPEED -1){ // is on the last sprite of the animation game overrr≈
-        playing .setGameOver(true);
-      playing.getGame().getAudioPlayer().stopSong();
-      playing.getGame().getAudioPlayer().playSong(AudioPlayer.GAMEOVER);}
-      else
+      } else if (aniIndex == getSprite(DEAD) - 1 && aniTick >= ANI_SPEED - 1) { // is on the last sprite of the animation game overrr≈
+        playing.setGameOver(true);
+        playing.getGame().getAudioPlayer().stopSong();
+        playing.getGame().getAudioPlayer().playSong(AudioPlayer.GAMEOVER);
+      } else
         updateAnimationTick();
       //playing.setGameOver(true);
       return;
@@ -113,6 +112,7 @@ public class Player extends Entity {
     }
     if (attacking)
       checkAttack();
+
     updateAnimationTick();
     setAnimation();
   }
@@ -148,6 +148,7 @@ public class Player extends Entity {
   }
 
   public void render(Graphics g, int lvlOffset) {
+    System.out.println("player inizia l-animazione " + state);
     g.drawImage(animations[state][aniIndex],
         (int) (hitbox.x - xDdrawOffset) - lvlOffset + flipX,
         (int) (hitbox.y - yDdrawOffset),
@@ -204,14 +205,15 @@ public class Player extends Entity {
       state = RUNNING;
     else
       state = IDLE;
-    if (inAir)
+    if (inAir){
       if (airSpeed < 0)
         state = JUMPING;
       else
-        state = FALLING;
+        state = FALLING;}
     if (attacking) {
-      state = ATTACK;
-      if (startAni != ATTACK) {
+      state = ATTACK_1;
+      if (startAni != ATTACK_1) {
+        System.out.println("animatio attack !!!!" + ATTACK_1);
         aniIndex = 1;
         aniTick = 0;
         return;
