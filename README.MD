@@ -4,3 +4,5 @@
 ![win](win_screen.png) 
 ![second level](second_level.png)
 ![cannons](cannons.gif)
+![options](options.gif)
+![gameplay](gameplay.gif)

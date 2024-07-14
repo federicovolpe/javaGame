@@ -181,7 +181,7 @@ public class Player extends Entity {
         
     drawHitbox(g, lvlOffset);
     updateAttackBox();
-    System.out.println("drawing attackBox.x : "+ attackBox.x + " hitbox.x " + hitbox.x);
+    //System.out.println("drawing attackBox.x : "+ attackBox.x + " hitbox.x " + hitbox.x);
     drawAttackBox(g, lvlOffset);
     drawUI(g);
   }
