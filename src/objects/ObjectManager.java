@@ -78,8 +78,9 @@ public class ObjectManager {
   private void updateProjectiles(int[][] lvlData, Player player) {
     for(Projectile p : projectiles){
       if(p.isActive()) p.updatePos();
-      if(p.getHitbox().intersects(player.getHitbox())) {
+      if(p.isActive() && p.getHitbox().intersects(player.getHitbox())) {
         player.changeHealth(-10);
+        System.out.println("player colpito dal proiettile " + -10);
         p.setActive(false);
       }else if(isProjectileHittingLevel(p, lvlData)){
         p.setActive(false);

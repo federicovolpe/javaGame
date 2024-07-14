@@ -86,6 +86,7 @@ public class Player extends Entity {
 
   private void initAttackBox() {
     attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
+    resetAttackBox();
   }
 
   public void update() {
@@ -105,7 +106,6 @@ public class Player extends Entity {
         playing.getGame().getAudioPlayer().playSong(AudioPlayer.GAMEOVER);
       } else
         updateAnimationTick();
-      //playing.setGameOver(true);
       return;
     }
 
@@ -178,7 +178,10 @@ public class Player extends Entity {
         width * flipW,
         height,
         null);
+        
     drawHitbox(g, lvlOffset);
+    updateAttackBox();
+    System.out.println("drawing attackBox.x : "+ attackBox.x + " hitbox.x " + hitbox.x);
     drawAttackBox(g, lvlOffset);
     drawUI(g);
   }
@@ -248,7 +251,6 @@ public class Player extends Entity {
     if (attacking) {
       state = ATTACK_1;
       if (startAni != ATTACK_1) {
-        System.out.println("animatio attack !!!!" + ATTACK_1);
         aniIndex = 1;
         aniTick = 0;
         return;
@@ -367,10 +369,12 @@ public class Player extends Entity {
   }
 
   public void setLeft(boolean direction) {
+    this.right = false;
     this.left = direction;
   }
 
   public void setRight(boolean direction) {
+    this.left = false;
     this.right = direction;
   }
 
@@ -390,11 +394,22 @@ public class Player extends Entity {
     moving = false;
     state = IDLE;
     currentHealth = maxHealth;
-
+    currentPower = powerMaxValue;
+    airSpeed = 0;
     hitbox.x = x;
     hitbox.y = y;
+    resetAttackBox();
     if (!isEntityOnFloor(hitbox, levelData))
       inAir = true;
+  }
+
+  private void resetAttackBox() {
+    if (flipW == 1) 
+      attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
+    else 
+      attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
+
+    System.out.println("hitbox.x " + hitbox.x +" attackBox : " + attackBox.x);
   }
 
   public void kill() {
