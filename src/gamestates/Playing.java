@@ -63,7 +63,6 @@ public class Playing extends State implements StateMethods {
   }
 
   public void loadNextLevel() {
-    
     levelManager.loadNextLevel();
     player.setSpawn(levelManager.getCurrLevel().getPlayerSpawn());
     resetAll();
