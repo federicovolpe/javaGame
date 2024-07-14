@@ -5,6 +5,7 @@ import main.Game;
 import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.Projectiles.*;
+import static utils.HelpMethods.isSolid;
 
 public class Projectile {
   private final Rectangle2D.Float hitbox;
@@ -25,9 +26,8 @@ public class Projectile {
     hitbox.x += dir * SPEED;
   }
 
-  public void setPos(int x, int y) {
-    hitbox.x = x;
-    hitbox.y = y;
+  public static boolean isProjectileHittingLevel(Projectile p, int[][] lvldata){
+    return isSolid(p.getHitbox().x + p.getHitbox().width /2, p.getHitbox().y + p.getHitbox().height/2, lvldata);
   }
 
   public Rectangle2D.Float getHitbox() {

@@ -12,10 +12,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import static objects.Cannon.canCannonSeePlayer;
+import static objects.Projectile.isProjectileHittingLevel;
 import static utils.Constants.ObjectConstants.*;
 import static utils.Constants.Projectiles.*;
-import static utils.HelpMethods.canCannonSeePlayer;
-import static utils.HelpMethods.isProjectileHittingLevel;
 
 public class ObjectManager {
   private final Playing playing;
@@ -27,7 +27,7 @@ public class ObjectManager {
   private List<GameContainer> containers;
   private List<Spike> spikes;
   private List<Cannon> cannons;
-  private List<Projectile> projectiles = new ArrayList<>();
+  private final List<Projectile> projectiles = new ArrayList<>();
 
   public ObjectManager(Playing playing) {
     this.playing = playing;

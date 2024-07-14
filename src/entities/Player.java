@@ -216,7 +216,7 @@ public class Player extends Entity {
       inAir = true;
   }
 
-  private void updateAnimationTick() {
+  protected void updateAnimationTick() {
     aniTick++;
     if (aniTick >= ANI_SPEED) {
       aniTick = 0;
@@ -275,7 +275,6 @@ public class Player extends Entity {
           return;
 
     float xSpeed = 0;
-
     if (left) {
       xSpeed -= walkSpeed;
       flipX = width;

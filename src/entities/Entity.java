@@ -54,4 +54,6 @@ public abstract class Entity {
     public int getAniIndex() {
         return aniIndex;
     }
+
+    abstract protected void updateAnimationTick();
 }
