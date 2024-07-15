@@ -11,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static objects.Cannon.canCannonSeePlayer;
 import static objects.Projectile.isProjectileHittingLevel;
@@ -22,12 +23,15 @@ public class ObjectManager {
   private BufferedImage[][] potionsImgs, containerImgs;
   private BufferedImage[] cannonsImgs;
   private BufferedImage spikeImg;
+  private BufferedImage[] treeImg = new BufferedImage[3];
   private BufferedImage cannonBallImg;
   private List<Potion> potions;
   private List<GameContainer> containers;
   private List<Spike> spikes;
   private List<Cannon> cannons;
+  private List<Tree> trees;
   private final List<Projectile> projectiles = new ArrayList<>();
+  private final Random rnd = new Random();
 
   public ObjectManager(Playing playing) {
     this.playing = playing;
@@ -53,13 +57,18 @@ public class ObjectManager {
       }
     }
     spikeImg = LoadSave.getSpriteAtlas(LoadSave.TRAP_ATLAS);
-    cannonsImgs = new BufferedImage[7];
 
+    cannonsImgs = new BufferedImage[7];
     BufferedImage tmp = LoadSave.getSpriteAtlas(LoadSave.CANNON_ATLAS);
     for (int i = 0; i < cannonsImgs.length; i++)
-      cannonsImgs[i] = tmp.getSubimage(i * 40, 0, 40, 26);
+      cannonsImgs[i] = tmp.getSubimage(i * CANNON_WIDTH_DEFAULT, 0, 40, 26);
 
     cannonBallImg = LoadSave.getSpriteAtlas(LoadSave.CANNON_BALL);
+    // for the trees type 1
+    tmp = LoadSave.getSpriteAtlas(LoadSave.TREE_ONE_SPRITE);
+    for (int i = 0; i < treeImg.length; i++) {
+      treeImg[i] = tmp.getSubimage(i * TREE_ONE_WIDTH_D, 0, TREE_ONE_WIDTH_D, TREE_ONE_HEIGHT_D);
+    }
   }
 
   public void update(int[][] lvlData, Player player) {
@@ -128,6 +137,7 @@ public class ObjectManager {
     drawCannons(g, xLvlOffset);
     drawTraps(g, xLvlOffset);
     drawProjectiles(g, xLvlOffset);
+    drawTrees(g, xLvlOffset);
   }
 
   private void drawProjectiles(Graphics g, int xLvlOffset) {
@@ -202,6 +212,14 @@ public class ObjectManager {
             POTION_HEIGHT, null);
         p.drawHitbox(g, xLvlOffset);
       }
+  }
+  private void drawTrees(Graphics g, int xLvlOffset){
+    for (Tree t : trees)
+      g.drawImage(treeImg[rnd.nextInt(3)],
+          t.x - xLvlOffset,
+          t.y - t.getyDrawOffset(),
+          TREE_ONE_WIDTH,
+          TREE_ONE_HEIGHT, null);
 
   }
 
@@ -210,6 +228,7 @@ public class ObjectManager {
     containers = new ArrayList<>(newLevel.getContainers());
     spikes = newLevel.getSpikes();
     cannons = newLevel.getCannons();
+    trees = newLevel.getTrees();
     projectiles.clear();
   }
 

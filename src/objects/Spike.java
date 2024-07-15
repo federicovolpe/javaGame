@@ -11,7 +11,6 @@ public class Spike extends GameObject{
 		xDrawOffset = 0;
 		yDrawOffset = (int)(Game.SCALE * 16);
 		hitbox.y += yDrawOffset;
-		
 	}
 
 }

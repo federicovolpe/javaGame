@@ -24,30 +24,15 @@ public class Player extends Entity {
   private boolean moving = false, attacking = false, jumping = false;
   private boolean left, right;
   private int[][] levelData;
-  private final float xDdrawOffset = 21 * Game.SCALE;
-  private final float yDdrawOffset = 4 * Game.SCALE;
 
-  // jumping parameters
-  private final float jumpSpeed = -4.f * Game.SCALE;
-  private final float fallSpeedAfterCollision = .5f * Game.SCALE;
   private boolean inAir = false;
 
   // Status Bar
   private BufferedImage statusBarImage;
-  private final int statusbarWidth = (int) (192 * Game.SCALE);
-  private final int statusbarHeight = (int) (58 * Game.SCALE);
-  private final int statusbarX = (int) (10 * Game.SCALE);
-  private final int statusbarY = (int) (10 * Game.SCALE);
 
   private final int heathBarWidth = (int) (150 * Game.SCALE);
-  private final int heathBarHeight = (int) (4 * Game.SCALE);
-  private final int heathBarXStart = (int) (34 * Game.SCALE);
-  private final int heathBarYStart = (int) (14 * Game.SCALE);
 
   private final int powerBarWidth = (int) (104 * Game.SCALE);
-  private final int powerBarHeight = (int) (2 * Game.SCALE);
-  private final int powerBarXStart = (int) (44 * Game.SCALE);
-  private final int powerBarYStart = (int) (34 * Game.SCALE);
   private int powerWidth = powerBarWidth;
   private final int powerMaxValue = 200;
   private int currentPower = powerMaxValue;
@@ -57,7 +42,6 @@ public class Player extends Entity {
   private final Playing playing;
   private int powerAttackTick;
   private boolean powerAttackActive = false;
-  private final int powerGrowSpeed = 15;
   private int powerGrowTick;
 
   // changing directions
@@ -165,6 +149,7 @@ public class Player extends Entity {
   private void updatePowerBar() {
     powerWidth = (int) ((currentPower / (float) powerMaxValue) * powerBarWidth);
     powerGrowTick++;
+    int powerGrowSpeed = 15;
     if (powerGrowTick >= powerGrowSpeed) {
       powerGrowTick = 0;
       changePower(2);
@@ -172,6 +157,8 @@ public class Player extends Entity {
   }
 
   public void render(Graphics g, int lvlOffset) {
+    float yDdrawOffset = 4 * Game.SCALE;
+    float xDdrawOffset = 21 * Game.SCALE;
     g.drawImage(animations[state][aniIndex],
         (int) (hitbox.x - xDdrawOffset) - lvlOffset + flipX,
         (int) (hitbox.y - yDdrawOffset),
@@ -188,12 +175,22 @@ public class Player extends Entity {
 
   private void drawUI(Graphics g) {
     // bakcground ui
+    int statusbarX = (int) (10 * Game.SCALE);
+    int statusbarWidth = (int) (192 * Game.SCALE);
+    int statusbarY = (int) (10 * Game.SCALE);
+    int statusbarHeight = (int) (58 * Game.SCALE);
     g.drawImage(statusBarImage, statusbarX, statusbarY, statusbarWidth, statusbarHeight, null);
     // healthBar
     g.setColor(Color.RED);
+    int heathBarXStart = (int) (34 * Game.SCALE);
+    int heathBarHeight = (int) (4 * Game.SCALE);
+    int heathBarYStart = (int) (14 * Game.SCALE);
     g.fillRect(heathBarXStart + statusbarX, heathBarYStart + statusbarY, healthWidth, heathBarHeight);
     // powerBar
     g.setColor(Color.BLUE);
+    int powerBarYStart = (int) (34 * Game.SCALE);
+    int powerBarHeight = (int) (2 * Game.SCALE);
+    int powerBarXStart = (int) (44 * Game.SCALE);
     g.fillRect(powerBarXStart + statusbarX, powerBarYStart + statusbarY, powerWidth, powerBarHeight);
   }
 
@@ -307,6 +304,7 @@ public class Player extends Entity {
         updataeXPos(xSpeed);
       } else { // if we cannot move up or down(hitting the roof or hitting the floor)
         hitbox.y = getYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+        float fallSpeedAfterCollision = .5f * Game.SCALE;
         if (airSpeed > 0) // the player is going down and hitting something
           resetInAir();
         else // the player is going up an hitting the roof
@@ -323,7 +321,8 @@ public class Player extends Entity {
     if (inAir) // if the player is already in the air do nothing
       return;
     inAir = true;
-    airSpeed = jumpSpeed;
+    // jumping parameters
+    airSpeed = JUMP_SPEED;
     playing.getGame().getAudioPlayer().playEffect(AudioPlayer.JUMP);
   }
 

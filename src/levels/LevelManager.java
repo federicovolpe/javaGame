@@ -25,8 +25,10 @@ public class LevelManager {
 
     private void buildAllLevels() {
         BufferedImage[] allLelvels = LoadSave.getAllLevels();
-        for (BufferedImage img : allLelvels)
-            levels.add(new Level(img));
+        int i = 1;
+        for (BufferedImage img : allLelvels){
+            levels.add(new Level(img, i));
+            i++;}
     }
 
     private void importOutsideSprites() {

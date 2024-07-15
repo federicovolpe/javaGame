@@ -34,6 +34,8 @@ public class LoadSave {
   public static final String CANNON_BALL = "ball.png";
   public static final String GO_BOARD = "death_screen.png";
   public static final String OPTIONS_MENU = "options_background.png";
+  public static final String TREE_ONE_SPRITE = "tree_one_atlas.png";
+  public static final String TREE_TWO_SPRITE = "tree_two_atlas.png";
 
   /**
    * gets the player sprites
@@ -59,8 +61,7 @@ public class LoadSave {
   }
 
   public static BufferedImage[] getAllLevels() {
-    URL url = LoadSave.class.getResource("/resources/lvls" +
-        "");
+    URL url = LoadSave.class.getResource("/resources/lvls/");
     File file = null;
 
     try {

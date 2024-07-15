@@ -16,7 +16,6 @@ public class Constants {
   }
 
   public static class ObjectConstants {
-
     public static final int RED_POTION = 0;
     public static final int BLUE_POTION = 1;
     public static final int BARREL = 2;
@@ -24,6 +23,9 @@ public class Constants {
     public static final int SPIKE = 4;
     public static final int CANNON_LEFT = 5;
     public static final int CANNON_RIGHT = 6;
+    public static final int TREE_0NE = 70;
+    public static final int TREE_TWO = 80;
+
 
     public static final int RED_POTION_VALUE = 15;
     public static final int BLUE_POTION_VALUE = 10;
@@ -46,6 +48,11 @@ public class Constants {
     public static final int CANNON_HEIGHT_DEFAULT = 26;
     public static final int CANNON_WIDTH = (int) (CANNON_WIDTH_DEFAULT * Game.SCALE);
     public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * Game.SCALE);
+
+    public static final int TREE_ONE_WIDTH_D = 39;
+    public static final int TREE_ONE_HEIGHT_D = 92;
+    public static final int TREE_ONE_WIDTH = (int) (TREE_ONE_WIDTH_D * Game.SCALE);
+    public static final int TREE_ONE_HEIGHT = (int) (TREE_ONE_HEIGHT_D * Game.SCALE);
 
     public static int getSprite(int object_type) {
       return switch (object_type) {
@@ -168,6 +175,7 @@ public class Constants {
     public static final int HIT = 5;
     public static final int ATTACK_1 = 4;
     public static final int DEAD = 6;
+    public static final float JUMP_SPEED = -4.f * Game.SCALE;
 
     /**
      * given an action it returns the corrisponding number of sprites

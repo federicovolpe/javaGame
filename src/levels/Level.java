@@ -8,27 +8,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.Game;
-import objects.Cannon;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
+import objects.*;
+import utils.Constants;
+
 import static utils.Constants.EnemyConstants.CRABBY;
 import static utils.Constants.ObjectConstants.*;
 
 public class Level {
   private final int[][] lvlData;
+  private final int lvlIndex;
   private final BufferedImage img;
   private final List<Crabby> crabs = new ArrayList<>();
   private final List<Potion> potions = new ArrayList<>();
   private final List<GameContainer> containers = new ArrayList<>();
   private final List<Spike> spikes = new ArrayList<>();
   private final List<Cannon> cannons = new ArrayList<>();
+  private final List<Tree> trees = new ArrayList<>();
   private int lvlTilesWide; // the number of tiles of the level in width
   private int maxTilesOffset;
   private int maxLvlOffset;
   private Point playerSpawn;
 
-  public Level(BufferedImage img) {
+  public Level(BufferedImage img, int lvlIndex) {
+    this.lvlIndex = lvlIndex;
     this.img = img;
     lvlData = new int[img.getHeight()][img.getWidth()];
     loadLevel();
@@ -42,18 +44,15 @@ public class Level {
   }
 
   private void loadLevel() {
-
     for (int y = 0; y < img.getHeight(); y++)
       for (int x = 0; x < img.getWidth(); x++) {
         Color c = new Color(img.getRGB(x, y));
-        int red = c.getRed();
-        int green = c.getGreen();
-        int blue = c.getBlue();
 
-        loadLevelData(red, x, y);
-        loadEntities(green, x, y);
-        loadObjects(blue, x, y);
+        loadLevelData(c.getRed(), x, y);
+        loadEntities(c.getGreen(), x, y);
+        loadObjects(c, x, y);
       }
+    System.out.println("found "+trees.size()+" trees");
   }
 
   private void loadLevelData(int redValue, int x, int y) {
@@ -73,16 +72,18 @@ public class Level {
       case SHARK -> sharks.add(new Shark(x * Game.TILES_SIZE, y * Game.TILES_SIZE));*/
       case 100 -> playerSpawn = new Point(x * Game.TILES_SIZE, y * Game.TILES_SIZE);
     }
-    System.out.println("found "+ crabs.size() +" enemies");
   }
 
-  private void loadObjects(int blueValue, int x, int y) {
+  private void loadObjects(Color color, int x, int y) {
+    int blueValue = color.getBlue();
     switch (blueValue) {
       case RED_POTION, BLUE_POTION -> potions.add(new Potion(x * Game.TILES_SIZE, y * Game.TILES_SIZE, blueValue));
       case BOX, BARREL -> containers.add(new GameContainer(x * Game.TILES_SIZE, y * Game.TILES_SIZE, blueValue));
       case SPIKE -> spikes.add(new Spike(x * Game.TILES_SIZE, y * Game.TILES_SIZE, SPIKE));
       case CANNON_LEFT, CANNON_RIGHT -> cannons.add(new Cannon(x * Game.TILES_SIZE, y * Game.TILES_SIZE, blueValue));
-      //case TREE_ONE, TREE_TWO, TREE_THREE -> trees.add(new BackgroundTree(x * Game.TILES_SIZE, y * Game.TILES_SIZE, blueValue));
+      case TREE_0NE, TREE_TWO/*, TREE_THREE */-> {
+        System.out.println("palm rgb: R "+color.getRed()+" G "+color.getGreen()+" B "+color.getBlue());trees.add(new Tree(x * Game.TILES_SIZE, y * Game.TILES_SIZE, blueValue));
+      }
     }
   }
   public int getSpriteIndex(int i, int j) {
@@ -119,5 +120,9 @@ public class Level {
 
   public List<Cannon> getCannons() {
     return cannons;
+  }
+
+  public List<Tree> getTrees() {
+    return trees;
   }
 }
